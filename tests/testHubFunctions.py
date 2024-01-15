@@ -1,3 +1,4 @@
+"""Tests for the hub class"""
 import unittest
 from src.classes import Hub
 
