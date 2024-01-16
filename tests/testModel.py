@@ -3,6 +3,7 @@ Tests for model creation
 """
 import unittest
 from src.model.model import create_empty_matrix, create_matrix, create_model
+from src.classes import Hub
 
 
 class TestModelCreation(unittest.TestCase):
@@ -78,7 +79,55 @@ class TestModelCreation(unittest.TestCase):
 
     def test_model_creation(self):
         """
-        Tests an array of hubs, with distances to each other is returned when model is created
+        Tests an array of hubs, with distances to each other is returned when valid model is requested
         """
+        # Create a 3 hub model
+        n = 3
+        alpha = 2
+        model = create_model(n=n, alpha=alpha, min_dist=1,
+                             max_def=-100, max_sur=100)
 
-        pass
+        # Test 3 hubs are returned
+        self.assertEqual(3, len(model))
+
+        # Test every item in the model is a hub object
+        for hub in model:
+            self.assertIsInstance(hub, Hub)
+
+        # Check the sum of s of all hubs is 0
+        sum_s = 0
+        for hub in model:
+            sum_s += hub.get_s()
+        self.assertEqual(0, sum_s)
+
+        # Check s value of hub class is 0
+        self.assertEqual(0, Hub.get_total_s())
+
+        # Check hubs aren't initialised with s=0
+        for hub in model:
+            self.assertNotEqual(0, hub.get_s())
+
+        # Check the distances between hubs are correct manhattan distances and all distances are present
+        # Compare all possible pairs of hubs
+        for i in range(len(model)):
+            for j in range(i, len(model)):
+                # Get longitude and latitude for the first hub in pair
+                long_1 = model[i].get_long()
+                lat_1 = model[i].get_lat()
+
+                # Get longitude and latitude for the second hub in the pair
+                long_2 = model[j].get_long()
+                lat_2 = model[j].get_lat()
+
+                # Calculate manhattan distance
+                dist = abs(long_1 - long_2) + abs(lat_1 - lat_2)
+
+                # Check connection present in both
+                connections_1 = model[i].get_connections()
+                connections_2 = model[j].get_connections()
+
+                # Check connection in 1st of pair
+                self.assertEqual(dist, connections_1[j])
+
+                # Check connection in 2nd of the pair
+                self.assertEqual(dist, connections_2[i])
