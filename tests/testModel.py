@@ -2,8 +2,8 @@
 Tests for model creation
 """
 import unittest
-from src.model.model import create_empty_matrix, create_matrix, create_model
-from src.classes import Hub
+from src.model.model import create_empty_matrix, create_locations, create_model
+from src.classes.hub import Hub
 
 
 class TestModelCreation(unittest.TestCase):
@@ -34,9 +34,9 @@ class TestModelCreation(unittest.TestCase):
         Tests the empty matrix can be populated
         """
         # Create a matrix with 10 hubs, a scaling factor of 5 and a minimum distance between hubs of 2
-        alpha = 5
+        a = 5
         n = 10
-        matrix = create_matrix(n=n, a=alpha, min_dist=2)
+        locs = create_locations(n=n, alpha=a, min_dist=2)
 
         # Check every element is present somewhere in the matrix
         # Create a set of the n hub values
@@ -45,14 +45,18 @@ class TestModelCreation(unittest.TestCase):
             vals.add(i)
 
         # Loop through each element in the array and make sure all vals are present
-        for i in range(n*alpha):
-            for j in range(n*alpha):
-                if matrix[i][j] != -1:
-                    # Remove this value from the set of possible values
-                    vals.remove(matrix[i][j])
+        for hub in locs:
+            vals.remove(hub['name'])
 
         # check all vals present
         self.assertEqual(0, len(vals))
+
+        # Check all hub locations are unique
+        locs_set = set()
+        for hub in locs:
+            if (hub['long'], hub['lat']) in locs_set:
+                self.fail("Repeated location present in model")
+            locs_set.add((hub['long'], hub['lat']))
 
     def test_matrix_population_can_deal_with_impossible_task(self):
         """
@@ -63,7 +67,7 @@ class TestModelCreation(unittest.TestCase):
         n = 10
         # Test an error is thrown
         try:
-            _ = create_matrix(n=n, a=alpha, min_dist=2)
+            _ = create_locations(n=n, a=alpha, min_dist=2)
             self.fail("Expected ValueError")
         except:
             pass
@@ -72,7 +76,7 @@ class TestModelCreation(unittest.TestCase):
         alpha = 1
         # Test an error is thrown
         try:
-            _ = create_matrix(n=n, a=alpha, min_dist=10)
+            _ = create_locations(n=n, a=alpha, min_dist=10)
             self.fail("Expected ValueError")
         except:
             pass
