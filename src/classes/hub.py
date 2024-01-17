@@ -32,6 +32,10 @@ class Hub:
         # Recalculate the total supply
         Hub.total_s += s
 
+    def __str__(self) -> str:
+        """To string method"""
+        return f'Hub: {self.name}, S: {self.s}'
+
     def add_connection(self, hub: 'Hub') -> None:
         """
         Add a connection between the Hub object and another hub to both dictionaries
