@@ -2,7 +2,7 @@
 Tests for model creation
 """
 import unittest
-from src.model.model import create_empty_matrix, create_locations, create_model
+from src.model.model import create_empty_matrix, create_locations, create_model, generate_s_vals
 from src.classes.hub import Hub
 
 
@@ -135,3 +135,24 @@ class TestModelCreation(unittest.TestCase):
 
                 # Check connection in 2nd of the pair
                 self.assertEqual(dist, connections_2[i])
+
+    def test_generate_s_vals(self):
+        """Test that generate_s_vals method correctly assigns values to s attribute"""
+        # Generate 100 values between -100 and 100
+        vals = generate_s_vals(n=100, max_def=-100, max_sur=100)
+
+        # Check 100 values
+        self.assertEqual(100, len(vals))
+
+        # Sum each of the values
+        sum_vals = 0
+        for v in vals:
+            # check each val between -100 and 100
+            self.assertTrue(-100 <= v <= 100)
+            # check each val not 0
+            self.assertNotEqual(v, 0)
+
+            # Add to the sum
+            sum_vals += v
+        # check sums to 0
+        self.assertEqual(sum_vals, 0)

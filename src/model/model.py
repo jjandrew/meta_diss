@@ -82,6 +82,50 @@ def create_locations(n: int, alpha: int, min_dist: int) -> List[Dict[str, int]]:
     return hub_locs
 
 
+def generate_s_vals(n: int, max_def: int, max_sur: int) -> List[int]:
+    """
+    Creates n values of hub supply for the hubs created such that sum of the s values is 0
+
+    params:
+        n - The number of hubs
+        max_def - Maximum deficit value of each hub
+        max_sur - Maximum surplus value of each hub
+
+    returns:
+        A list of n s values, where no s value is 0, the sum of the values is 0 and the values stay within the range
+    """
+    # Set initia values of total_s and s vals for each hub
+    total_s = 0
+    s_vals = []
+
+    # Repeat until n-1 s values in s_vals
+    while len(s_vals) < n - 1:
+        r_val = 0
+        # If total_s = 0 then val between max_def and max_sur
+        if total_s == 0:
+            r_val = random.randint(max_def, max_sur)
+
+        # elif total_s < 0 then val between (max_def - total_s) and max_sur
+        # This keeps total_s between the bounds of max_def and max_sur
+        elif total_s < 0:
+            r_val = random.randint((max_def-total_s), max_sur)
+
+        # Elif total_s > 0 then val between max_def and (max_sur - total_s)
+        elif total_s > 0:
+            r_val = random.randint(max_def, (max_sur-total_s))
+
+        # Make sure r_val is not 0 and if so choose another number
+        if r_val != 0:
+            # Add it to total s and to s_vals
+            total_s += r_val
+            s_vals.append(r_val)
+
+    # Add the final s_val so that it sums to 0
+    s_vals.append(0-total_s)
+
+    return s_vals
+
+
 def create_model(n: int, alpha: int, min_dist=1, max_def=-100, max_sur=100) -> List[Hub]:
     """
     Create a model with n hubs at randomly generated locations
@@ -100,11 +144,15 @@ def create_model(n: int, alpha: int, min_dist=1, max_def=-100, max_sur=100) -> L
     # Generate the location of the hubs
     hub_locs = create_locations(n=n, alpha=alpha, min_dist=min_dist)
 
+    # Generate the n s_vals
+    s_vals = generate_s_vals(n=n, max_def=max_def, max_sur=max_sur)
+
     # Create the hubs as hub objects
     hubs = []
-    for hub in hub_locs:
+    for i in range(len(hub_locs)):
         # TODO calculate an s for the hub
-        new_hub = Hub(name=hub['name'], s=0, long=hub['long'], lat=hub['lat'])
+        new_hub = Hub(name=hub_locs[i]['name'], s=s_vals[i],
+                      long=hub_locs[i]['long'], lat=hub_locs[i]['lat'])
         hubs.append(new_hub)
 
     # Calculate manhattan distances between hubs
