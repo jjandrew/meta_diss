@@ -148,7 +148,7 @@ def create_model(n: int, alpha: int, min_dist=1, max_def=-100, max_sur=100) -> L
     s_vals = generate_s_vals(n=n, max_def=max_def, max_sur=max_sur)
 
     # Create the hubs as hub objects
-    hubs = []
+    hubs: List[Hub] = []
     for i in range(len(hub_locs)):
         # TODO calculate an s for the hub
         new_hub = Hub(name=hub_locs[i]['name'], s=s_vals[i],

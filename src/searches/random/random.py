@@ -1,12 +1,12 @@
 """
 Creates a random solution to the model passed in
 """
-from typing import List
+from typing import List, Dict
 from src.classes.hub import Hub
 import random
 
 
-def random_search(model: List[Hub], max_journey_size: int):
+def random_search(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Performs a random search on the model that is passed in
 
