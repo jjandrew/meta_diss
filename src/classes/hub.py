@@ -34,7 +34,7 @@ class Hub:
 
     def __str__(self) -> str:
         """To string method"""
-        return f'Hub: {self.name}, S: {self.s}'
+        return f'Hub: {self.name}, (x,y): ({self.long},{self.lat}), S: {self.s}'
 
     def add_connection(self, hub: 'Hub') -> None:
         """

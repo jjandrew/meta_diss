@@ -120,6 +120,10 @@ def generate_s_vals(n: int, max_def: int, max_sur: int) -> List[int]:
             total_s += r_val
             s_vals.append(r_val)
 
+    # If total_s has reach 0 at this stage, will need to generate again
+    if total_s == 0:
+        return generate_s_vals(n=n, max_def=max_def, max_sur=max_sur)
+
     # Add the final s_val so that it sums to 0
     s_vals.append(0-total_s)
 

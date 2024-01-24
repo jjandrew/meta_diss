@@ -4,7 +4,10 @@ Tests for the repeated functions throughout the project
 
 import unittest
 from src.classes.hub import Hub
-from src.utils import calc_distance, get_closest_hub, reduce_model
+from src.utils import calc_distance, get_closest_hub, reduce_model, improve_solution
+from src.model.model import create_model
+from src.searches.random.random import random_search
+import copy
 
 
 class TestModelCreation(unittest.TestCase):
@@ -68,3 +71,28 @@ class TestModelCreation(unittest.TestCase):
         ]
 
         self.assertEqual(model_reduction_journeys, expected_journeys)
+
+    def test_improve_solution(self):
+        model = create_model(n=6, alpha=2, max_def=-10, max_sur=10)
+
+        print()
+        print("Starting state of model")
+        for hub in model:
+            print(hub)
+
+        print()
+        random_solution = random_search(
+            model=copy.deepcopy(model), max_journey_size=3)
+
+        print("Final solution")
+        for journey in random_solution:
+            print(journey)
+
+        print()
+
+        final_solution = improve_solution(solution=random_solution,
+                                          model=model, max_journey_size=3)
+
+        print("Final solution")
+        for journey in final_solution:
+            print(journey)
