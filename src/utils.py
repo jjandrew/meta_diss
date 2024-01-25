@@ -2,24 +2,24 @@
 General utilities for use throughout the project
 """
 from typing import Dict, List
-from src.classes.hub import Hub
+from classes.hub import Hub
 from math import inf
 
 
-def calc_distance(path: List[Dict[str, int]], hubs: List[Hub]) -> int:
+def calc_distance(path: List[Dict[str, int]], model: List[Hub]) -> int:
     """
     Function for calculating fitness (distance) of a solution
 
     params:
         path - List of {from, to, s} dictionaries
-        hubs - The hubs in the solution
+        model - The hubs in the solution
 
     returns
         Total distance of the solution
     """
     # Convert list of hubs into a dictionary to make it easier (and faster) to search
     hub_dict = {}
-    for hub in hubs:
+    for hub in model:
         hub_dict[hub.get_name()] = hub
 
     # Counter for total distance

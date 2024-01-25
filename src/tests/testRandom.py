@@ -3,9 +3,9 @@ Tests for the random search method
 """
 
 import unittest
-from src.searches.random.random import random_search
-from src.classes.hub import Hub
-from src.model.model import create_model
+from searches.random.random import random_search
+from classes.hub import Hub
+from model.model import create_model
 
 
 class TestModelCreation(unittest.TestCase):

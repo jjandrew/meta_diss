@@ -3,10 +3,10 @@ Tests for the repeated functions throughout the project
 """
 
 import unittest
-from src.classes.hub import Hub
-from src.utils import calc_distance, get_closest_hub, reduce_model, improve_solution
-from src.model.model import create_model
-from src.searches.random.random import random_search
+from classes.hub import Hub
+from utils import calc_distance, get_closest_hub, reduce_model, improve_solution
+from model.model import create_model
+from searches.random.random import random_search
 import copy
 
 
@@ -42,7 +42,7 @@ class TestModelCreation(unittest.TestCase):
             {'from': 0, 'to': 1, 's': 10},  # dist 3
             {'from': 2, 'to': 1, 's': 10}  # dist 3
         ]  # total dist of 11
-        dist = calc_distance(path=solution, hubs=self.model)
+        dist = calc_distance(path=solution, model=self.model)
 
         self.assertEqual(11, dist)
 
@@ -73,26 +73,16 @@ class TestModelCreation(unittest.TestCase):
         self.assertEqual(model_reduction_journeys, expected_journeys)
 
     def test_improve_solution(self):
-        model = create_model(n=6, alpha=2, max_def=-10, max_sur=10)
+        model = create_model(n=1000, alpha=2, max_def=-100, max_sur=100)
 
-        print()
-        print("Starting state of model")
-        for hub in model:
-            print(hub)
-
-        print()
         random_solution = random_search(
-            model=copy.deepcopy(model), max_journey_size=3)
+            model=copy.deepcopy(model), max_journey_size=10)
 
-        print("Final solution")
-        for journey in random_solution:
-            print(journey)
-
-        print()
+        original_fitness = calc_distance(path=random_solution, model=model)
 
         final_solution = improve_solution(solution=random_solution,
                                           model=model, max_journey_size=3)
 
-        print("Final solution")
-        for journey in final_solution:
-            print(journey)
+        final_fitness = calc_distance(path=final_solution, model=model)
+
+        self.assertLessEqual(final_fitness, original_fitness)

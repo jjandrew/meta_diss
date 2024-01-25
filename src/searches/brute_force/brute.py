@@ -2,14 +2,13 @@
 A brute force approach to solving the problem
 """
 from typing import List, Dict
-from src.classes.hub import Hub
-from src.utils import reduce_model, calc_distance
-import itertools
+from classes.hub import Hub
+from utils import reduce_model, calc_distance, improve_solution
 from math import inf
 
 
 # Now for testing
-from src.model.model import create_model
+from model.model import create_model
 
 
 def brute(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
@@ -27,39 +26,22 @@ def brute(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
     journeys = reduce_model(model=model, max_journey_size=max_journey_size)
 
     # generate all possible journeys
-    all_journeys = []
-    # Generate all pairs of unequal hubs
-    for hub_1 in model:
-        for hub_2 in model:
-            if hub_1 != hub_2:
-                # Generate all possible quantities up to the max journey size
-                for quantity in range(1, max_journey_size + 1):
-                    all_journeys.append((hub_1, hub_2, quantity))
-
-    # For each of these journeys, keep adding journeys until all s's at 0
-
-    print("All journeys added")
-
-    print(len(all_journeys))
-
-    # find all permutations of journeys
-    perms = list(itertools.permutations(all_journeys))
-
-    print("Permutations generated")
 
     # Initialize variables to track the best solution
     best_sequence = None
     min_distance = inf
 
     # Check all permutations
-    for perm in perms:
-        print(perm)
-        fitness = calc_distance(perm)
+    for path in paths:
+        improved_path = improve_solution(solution=path, model=model,
+                                         max_journey_size=max_journey_size)
+        print(improved_path)
+        fitness = calc_distance(path=improved_path, model=model)
 
         # Check if the current sequence is better than the current best
         if fitness < min_distance:
             min_distance = fitness
-            best_sequence = perm
+            best_sequence = improved_path
 
     return best_sequence
 

@@ -2,7 +2,7 @@
 Creates a random solution to the model passed in
 """
 from typing import List, Dict
-from src.classes.hub import Hub
+from classes.hub import Hub
 import random
 
 

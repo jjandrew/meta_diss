@@ -1,7 +1,7 @@
 """Tests for the brute force algorithm"""
 import unittest
-from src.searches.brute_force.brute import brute
-from src.model.model import create_model
+from searches.brute_force.brute import brute
+from model.model import create_model
 
 
 class TestHubClass(unittest.TestCase):
