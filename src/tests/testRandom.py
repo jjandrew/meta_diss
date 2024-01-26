@@ -12,7 +12,7 @@ class TestModelCreation(unittest.TestCase):
     """
     Test clas for the random search method
     """
-    model = create_model(n=100, alpha=2)
+    model = create_model(n=10000, alpha=2)
 
     def test_random_search(self):
         """Checks that the function returns a valid solution"""

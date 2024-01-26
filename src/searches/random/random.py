@@ -5,6 +5,7 @@ from typing import List, Dict
 from classes.hub import Hub
 from utils import is_resolved
 import random
+import copy
 
 
 def random_search(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
@@ -20,12 +21,17 @@ def random_search(model: List[Hub], max_journey_size: int) -> List[Dict[str, int
     """
     journeys = []
 
+    hubs_to_resolve: List[Hub] = copy.copy(model)
+
     # while there are still hubs to be resolved
     while not is_resolved(model=model):
         # Choose a random hub to resolve
-        rand_loc = random.randint(0, len(model) - 1)
+        rand_loc = random.randint(0, len(hubs_to_resolve) - 1)
         # Obtain the hub
-        chosen_hub = model[rand_loc]
+        chosen_hub: Hub = hubs_to_resolve[rand_loc]
+
+        # do not want to compare hub to itself so remove it from to resolve
+        hubs_to_resolve.pop(rand_loc)
 
         # Check if the chosen hub is in deficit or surplus
         surplus = False
@@ -35,15 +41,13 @@ def random_search(model: List[Hub], max_journey_size: int) -> List[Dict[str, int
         # Continue until resolution
         while chosen_hub.get_s() != 0:
             # Choose a random hub to perform move with
-            mv_loc = random.randint(0, len(model) - 1)
-            movement_hub = model[mv_loc]
+            mv_loc = random.randint(0, len(hubs_to_resolve) - 1)
+            movement_hub: Hub = hubs_to_resolve[mv_loc]
 
             # Do nothing if the chosen hub does not work towards a solution
             if surplus and movement_hub.get_s() > 0:
                 continue
             elif not surplus and movement_hub.get_s() < 0:
-                continue
-            elif movement_hub.get_s() == 0:
                 continue
 
             # Doesn't resolve chosen hub, therefore abs(chosen_hub.get(s)) > max_journey_size
@@ -84,8 +88,9 @@ def random_search(model: List[Hub], max_journey_size: int) -> List[Dict[str, int
                         # Move from movement to chose
                         Hub.move_s(start=movement_hub, end=chosen_hub,
                                    s=abs(movement_hub.get_s()))
-                    # Pop movement hub from model as it is resolved
-                    model.pop(mv_loc)
+
+                    # Remove movement hub from hubs to resolve
+                    hubs_to_resolve.pop(mv_loc)
 
             # Else difference is resolved with this journey
             else:
