@@ -12,7 +12,7 @@ class TestModelCreation(unittest.TestCase):
     """
     Test clas for the random search method
     """
-    model = create_model(6, 2)
+    model = create_model(n=100, alpha=2)
 
     def test_random_search(self):
         """Checks that the function returns a valid solution"""
@@ -27,5 +27,5 @@ class TestModelCreation(unittest.TestCase):
         for s in solution:
             solution_s += s['s']
 
-        # Assert absolute sum of solution s = sum of absolute of og s of model
-        self.assertEqual(model_abs_s, solution_s)
+        # Assert absolute sum of solution s = 2 * sum of absolute of original s of model
+        self.assertEqual(model_abs_s, solution_s * 2)

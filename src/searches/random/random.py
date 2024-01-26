@@ -3,6 +3,7 @@ Creates a random solution to the model passed in
 """
 from typing import List, Dict
 from classes.hub import Hub
+from utils import is_resolved
 import random
 
 
@@ -20,11 +21,11 @@ def random_search(model: List[Hub], max_journey_size: int) -> List[Dict[str, int
     journeys = []
 
     # while there are still hubs to be resolved
-    while len(model) > 1:
+    while not is_resolved(model=model):
         # Choose a random hub to resolve
         rand_loc = random.randint(0, len(model) - 1)
-        # Remove it from the model to stop unnecessary computation
-        chosen_hub = model.pop(rand_loc)
+        # Obtain the hub
+        chosen_hub = model[rand_loc]
 
         # Check if the chosen hub is in deficit or surplus
         surplus = False
@@ -41,6 +42,8 @@ def random_search(model: List[Hub], max_journey_size: int) -> List[Dict[str, int
             if surplus and movement_hub.get_s() > 0:
                 continue
             elif not surplus and movement_hub.get_s() < 0:
+                continue
+            elif movement_hub.get_s() == 0:
                 continue
 
             # Doesn't resolve chosen hub, therefore abs(chosen_hub.get(s)) > max_journey_size
