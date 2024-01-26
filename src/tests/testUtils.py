@@ -4,7 +4,7 @@ Tests for the repeated functions throughout the project
 
 import unittest
 from classes.hub import Hub
-from utils import calc_distance, get_closest_hub, reduce_model, improve_solution
+from utils import calc_distance, get_closest_hub, reduce_model, improve_solution, is_resolved
 from model.model import create_model
 from searches.random.random import random_search
 import copy
@@ -73,16 +73,42 @@ class TestModelCreation(unittest.TestCase):
         self.assertEqual(model_reduction_journeys, expected_journeys)
 
     def test_improve_solution(self):
+        """
+        Test the function that can shortern final solution from doing journeys between surplus hubs
+        """
+        # Create an 1000 node model
         model = create_model(n=1000, alpha=2, max_def=-100, max_sur=100)
 
+        # Generate a random solution
         random_solution = random_search(
             model=copy.deepcopy(model), max_journey_size=10)
 
+        # Get the fitness of the random solution
         original_fitness = calc_distance(path=random_solution, model=model)
 
+        # Try and improve it
         final_solution = improve_solution(solution=random_solution,
                                           model=model, max_journey_size=3)
 
+        # Calculate final fitness
         final_fitness = calc_distance(path=final_solution, model=model)
 
+        # Check final fitness is lower than or equal to original fitnes
         self.assertLessEqual(final_fitness, original_fitness)
+
+    def test_model_resolved(self):
+        """
+        Test the function that checks if a model has been resolved
+        """
+        # Test unresolved model (shown in test suite) is not complete
+        self.assertFalse(is_resolved(model=self.model))
+
+        # Now test a correct one is complete
+        # Create 3 hubs that are resolved
+        hub0 = Hub(name=0, s=0, long=0, lat=0)
+        hub1 = Hub(name=1, s=0, long=1, lat=2)
+        hub2 = Hub(name=2, s=0, long=2, lat=0)
+        # Place in an array
+        model = [hub0, hub1, hub2]
+        # check it is resolved
+        self.assertTrue(is_resolved(model=model))

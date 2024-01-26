@@ -39,6 +39,23 @@ def calc_distance(path: List[Dict[str, int]], model: List[Hub]) -> int:
     return total_dist
 
 
+def is_resolved(model: List[Hub]) -> bool:
+    """
+    Returns whether or not a model is in equilibrium
+    params:
+        model - A list of hubs representing the model
+
+    Returns
+        Boolean value representing whether model is in equilibrium
+    """
+    # If any of the hubs are not in equilibrium, return false
+    for hub in model:
+        if hub.get_s() != 0:
+            return False
+    # If all hubs in equiirbium, return true
+    return True
+
+
 def get_closest_hub(hub: Hub, model: List[Hub]) -> Hub:
     """
     Get the closest connection to a hub
