@@ -4,9 +4,10 @@ General utilities for use throughout the project
 from typing import Dict, List
 from classes.hub import Hub
 from math import inf
+import copy
 
 
-def calc_distance(path: List[Dict[str, int]], model: List[Hub]) -> int:
+def fitness(path: List[Dict[str, int]], model: List[Hub]) -> int:
     """
     Function for calculating fitness (distance) of a solution
 
@@ -68,6 +69,12 @@ def get_closest_hub(hub: Hub, model: List[Hub]) -> Hub:
     """
     # Get the connections to a hub
     connections = hub.get_connections()
+
+    # Check there are connections
+    if not connections:
+        print("No connection present")
+        return None
+
     # Get the name of the hub with the minimum connection
     closest_hub_name = min(connections, key=connections.get)
     # Get the object for the closest hub
@@ -250,6 +257,10 @@ def improve_solution(solution: List[Dict[str, int]], model: List[Hub], max_journ
                 B_hub = get_hub_from_name(name=j['from'], model=model)
                 # print(f'B = {B_hub.get_name()}, index = {j_index}')
 
+                # Make sure B and A hubs are not the same
+                if B_hub == A_hub:
+                    continue
+
                 # Check B closer to A than Z
                 is_closer_to_A = A_connections[B_hub.get_name(
                 )] < A_connections[Z_hub.get_name()]
@@ -289,3 +300,40 @@ def improve_solution(solution: List[Dict[str, int]], model: List[Hub], max_journ
             #     f'Additional surplus of {final_closest.get_name()} is {additional_surplus[final_closest.get_name()]}')
 
     return final_solution
+
+
+def apply_path(path: List[Dict[str, int]], model: List[Hub]):
+    """
+    Applies a list of journeys to a model to get a new model state
+
+    params
+        path - A list of dictionaries of {from, to, s} to apply to the model
+        model - A list of hubs in original state
+    """
+    # For every journey
+    for journey in path:
+        # Get the hub objects the journey is going from and to
+        from_hub = get_hub_from_name(name=journey['from'], model=model)
+        to_hub = get_hub_from_name(name=journey['to'], model=model)
+
+        # Move the correct quantitiy between the hubs
+        Hub.move_s(start=from_hub, end=to_hub, s=journey['s'])
+
+
+def is_complete(path: List[Dict[str, int]], original_model_state: List[Hub]) -> bool:
+    """
+    Checks whether a path leads to a model being in equilibrium
+
+    params
+        path - The path applied to the model
+        original_model_state - The original state of the model the journeys are applied to
+
+    returns
+        Boolean of whether the model is in equilibrium after the journeys are applied
+    """
+    # Apply the journey to the model
+    model_copy = copy.deepcopy(original_model_state)
+    apply_path(path=path, model=model_copy)
+
+    # Check whether model is in equilibrium
+    return is_resolved(model=model_copy)

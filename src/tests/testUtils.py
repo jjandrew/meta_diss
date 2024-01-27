@@ -4,7 +4,7 @@ Tests for the repeated functions throughout the project
 
 import unittest
 from classes.hub import Hub
-from utils import calc_distance, get_closest_hub, reduce_model, improve_solution, is_resolved
+from utils import fitness, get_closest_hub, reduce_model, improve_solution, is_resolved
 from model.model import create_model
 from searches.random.random import random_search
 import copy
@@ -42,7 +42,7 @@ class TestModelCreation(unittest.TestCase):
             {'from': 0, 'to': 1, 's': 10},  # dist 3
             {'from': 2, 'to': 1, 's': 10}  # dist 3
         ]  # total dist of 11
-        dist = calc_distance(path=solution, model=self.model)
+        dist = fitness(path=solution, model=self.model)
 
         self.assertEqual(11, dist)
 
@@ -84,14 +84,14 @@ class TestModelCreation(unittest.TestCase):
             model=copy.deepcopy(model), max_journey_size=10)
 
         # Get the fitness of the random solution
-        original_fitness = calc_distance(path=random_solution, model=model)
+        original_fitness = fitness(path=random_solution, model=model)
 
         # Try and improve it
         final_solution = improve_solution(solution=random_solution,
                                           model=model, max_journey_size=3)
 
         # Calculate final fitness
-        final_fitness = calc_distance(path=final_solution, model=model)
+        final_fitness = fitness(path=final_solution, model=model)
 
         # Check final fitness is lower than or equal to original fitnes
         self.assertLessEqual(final_fitness, original_fitness)
