@@ -3,7 +3,7 @@ Tests for model creation
 """
 import unittest
 from model.model import create_empty_matrix, create_locations, create_model, generate_s_vals
-from classes.hub import Hub
+from model.hub import Hub
 
 
 class TestModelCreationClass(unittest.TestCase):

@@ -2,7 +2,7 @@
 Tests the create matrix functions of ACO
 """
 import unittest
-from classes.hub import Hub
+from model.hub import Hub
 from searches.aco.create_matrices import create_dist_matrix, create_pher_matrix
 
 
@@ -44,3 +44,35 @@ class TestACOMatricesClass(unittest.TestCase):
 
         # Make sure they are equal
         self.assertEqual(dist_matrix, expected_matrix)
+
+    def test_pheromone_matrix_creation(self):
+        """
+        Tests that the pheromone matrix is created correctly
+        """
+        # The dist matrix to be used
+        dist_matrix = [
+            [0, 3, 2],
+            [3, 0, 3],
+            [2, 3, 0]
+        ]
+
+        # Create a pheromone matrix
+        pher_matrix = create_pher_matrix(dist_matrix=dist_matrix)
+
+        # Make sure correct number of rows in pheromone matrix
+        self.assertEqual(len(dist_matrix), len(pher_matrix))
+
+        # for each row
+        for i in range(0, len(dist_matrix)):
+            # Corresponding pheromone matrix row is of correct size
+            self.assertEqual(len(pher_matrix[i]), len(dist_matrix))
+
+            # For each element in the row
+            for j in range(0, len(dist_matrix)):
+                # If i and j are same (pheromone for journey from a hub to itself) pheromone is 0
+                if i == j:
+                    self.assertEqual(pher_matrix[i][j], 0)
+                else:
+                    # Make sure pheromone value is between 0 and 1
+                    self.assertGreater(pher_matrix[i][j], 0)
+                    self.assertLessEqual(pher_matrix[i][j], 1)

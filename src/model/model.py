@@ -2,7 +2,7 @@
 
 from typing import List, Dict
 import random
-from classes.hub import Hub
+from model.hub import Hub
 
 
 def create_empty_matrix(n: int, alpha: int) -> List[List[int]]:

@@ -1,6 +1,6 @@
 """Tests for the hub class"""
 import unittest
-from classes.hub import Hub
+from model.hub import Hub
 
 
 class TestHubClass(unittest.TestCase):

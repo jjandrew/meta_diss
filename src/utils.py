@@ -2,7 +2,7 @@
 General utilities for use throughout the project
 """
 from typing import Dict, List
-from classes.hub import Hub
+from model.hub import Hub
 from math import inf
 import copy
 

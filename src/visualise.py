@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from classes.hub import Hub
+from model.hub import Hub
 from typing import List
 
 

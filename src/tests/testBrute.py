@@ -2,7 +2,7 @@
 import unittest
 from searches.brute_force.brute import brute, next_steps
 from model.model import create_model
-from classes.hub import Hub
+from model.hub import Hub
 from searches.random.random import random_search
 import copy
 from utils import fitness, improve_solution

@@ -2,7 +2,7 @@
 A brute force approach to solving the problem
 """
 from typing import List, Dict
-from classes.hub import Hub
+from model.hub import Hub
 from utils import reduce_model, fitness, apply_path, is_complete, improve_solution
 from math import inf
 import copy

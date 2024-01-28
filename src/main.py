@@ -1,6 +1,6 @@
 from model.model import create_model
 from visualise import plot_network
-from classes.hub import Hub
+from model.hub import Hub
 from searches.brute_force.brute import brute
 from utils import reduce_model
 
