@@ -1,12 +1,12 @@
 """
 Creates distance and pheromone matrices for the problem
 """
-from typing import List
+from typing import List, Dict
 from model.hub import Hub
 import random
 
 
-def create_dist_matrix(model: List[Hub]) -> List[List[float]]:
+def create_dist_matrix(model: Dict[int, Hub]) -> List[List[float]]:
     """
     Creates the distance matrix from the model passed in
 
@@ -21,8 +21,8 @@ def create_dist_matrix(model: List[Hub]) -> List[List[float]]:
     dist_matrix = [[0] * len(model) for _ in range(len(model))]
 
     # Add the connections into the dist_matrix
-    for hub in model:
-        print()
+    for hub_name in model:
+        hub = model[hub_name]
         # Get the name and connections of the hub
         name = hub.get_name()
         connections = hub.get_connections()
