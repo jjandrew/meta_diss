@@ -8,7 +8,7 @@ from classes.hub import Hub
 from model.model import create_model
 
 
-class TestModelCreation(unittest.TestCase):
+class TestRandomSolutionClass(unittest.TestCase):
     """
     Test clas for the random search method
     """

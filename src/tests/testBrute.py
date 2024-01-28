@@ -8,7 +8,7 @@ import copy
 from utils import fitness, improve_solution
 
 
-class TestHubClass(unittest.TestCase):
+class TestBruteClass(unittest.TestCase):
     """
     Class for testing brute force algorithm
     """

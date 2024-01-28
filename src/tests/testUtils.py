@@ -10,7 +10,7 @@ from searches.random.random import random_search
 import copy
 
 
-class TestModelCreation(unittest.TestCase):
+class TestUtilsClass(unittest.TestCase):
     """
     Test class for the repeated functions
     """

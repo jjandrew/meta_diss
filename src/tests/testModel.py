@@ -6,7 +6,7 @@ from model.model import create_empty_matrix, create_locations, create_model, gen
 from classes.hub import Hub
 
 
-class TestModelCreation(unittest.TestCase):
+class TestModelCreationClass(unittest.TestCase):
     """Tests the model creation"""
 
     def test_create_empty_matrix(self):
