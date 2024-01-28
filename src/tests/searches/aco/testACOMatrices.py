@@ -17,7 +17,7 @@ class TestACOMatricesClass(unittest.TestCase):
         """Setup for the tests (to create the model)"""
         # Create 3 hubs
         hub0 = Hub(name=0, s=-5, long=0, lat=0)
-        hub1 = Hub(name=1, s=0, long=1, lat=2)
+        hub1 = Hub(name=1, s=6, long=1, lat=2)
         hub2 = Hub(name=2, s=10, long=2, lat=0)
 
         # Place in an array
@@ -57,7 +57,8 @@ class TestACOMatricesClass(unittest.TestCase):
         ]
 
         # Create a pheromone matrix
-        pher_matrix = create_pher_matrix(dist_matrix=dist_matrix)
+        pher_matrix = create_pher_matrix(
+            model=self.model, dist_matrix=dist_matrix)
 
         # Make sure correct number of rows in pheromone matrix
         self.assertEqual(len(dist_matrix), len(pher_matrix))
@@ -66,6 +67,11 @@ class TestACOMatricesClass(unittest.TestCase):
         for i in range(0, len(dist_matrix)):
             # Corresponding pheromone matrix row is of correct size
             self.assertEqual(len(pher_matrix[i]), len(dist_matrix))
+
+            # If the hub is a deficit hub, make sure whole row is 0
+            if self.model[i].get_s() < 0:
+                self.assertTrue((pher_matrix[i] == [0] * len(dist_matrix)))
+                continue
 
             # For each element in the row
             for j in range(0, len(dist_matrix)):
