@@ -5,6 +5,7 @@ from model.hub import Hub
 from typing import List, Dict
 from utils import fitness
 import random
+import copy
 
 
 def perform_journey(sur_hub: Hub, def_hub: Hub, max_journey_size: int) -> (Dict[str, int], List[int]):
@@ -61,6 +62,10 @@ def generate_path(sur_hubs: Dict[int, Hub], def_hubs: Dict[int, Hub],
     alpha = 1
     # Beta is the exponent used to scale the heuristic matrix
     beta = 2
+
+    # Make copies of the surplus and deficit hubs so the rest of the algorithm isn't affected
+    sur_hubs = copy.deepcopy(sur_hubs)
+    def_hubs = copy.deepcopy(def_hubs)
 
     # Store the path
     path = []

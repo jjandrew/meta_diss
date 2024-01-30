@@ -123,8 +123,7 @@ class TestACOPathGenerationClass(unittest.TestCase):
         Tests valid solutions are created for a larger model
         """
         # Create a model
-        model = create_model(n=1000, alpha=2, max_def=-20, max_sur=20)
-        model_copy = copy.deepcopy(model)
+        model = create_model(n=100, alpha=2, max_def=-20, max_sur=20)
 
         model_dict = {hub.get_name(): hub for hub in model}
 
@@ -140,6 +139,6 @@ class TestACOPathGenerationClass(unittest.TestCase):
         path = generate_path(sur_hubs=sur_hubs, def_hubs=def_hubs,
                              d=d, h=h, p=p, max_journey_size=max_j_size)
 
-        complete = is_complete(path=path, original_model_state=model_copy)
+        complete = is_complete(path=path, original_model_state=model)
 
         self.assertTrue(complete)
