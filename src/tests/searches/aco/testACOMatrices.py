@@ -3,7 +3,7 @@ Tests the create matrix functions of ACO
 """
 import unittest
 from model.hub import Hub
-from searches.aco.create_matrices import create_dist_matrix, create_pher_matrix
+from searches.aco.create_matrices import create_dist_matrix, create_pher_matrix, create_heur_matrix
 
 
 class TestACOMatricesClass(unittest.TestCase):
@@ -82,3 +82,27 @@ class TestACOMatricesClass(unittest.TestCase):
                     # Make sure pheromone value is between 0 and 1
                     self.assertGreater(pher_matrix[i][j], 0)
                     self.assertLessEqual(pher_matrix[i][j], 1)
+
+    def test_heuristic_matrix_creation(self):
+        """
+        Tests that the heuristic matrix is created correctly
+        """
+        # Create a distance matrix
+        dist_matrix = [
+            [0, 4, 2],
+            [4, 0, 4],
+            [2, 4, 0]
+        ]
+
+        # Calculate heuristic matrix
+        h_matrix = create_heur_matrix(dist_matrix=dist_matrix)
+
+        # Make sure 1/each val is returned
+        expected = [
+            [0, 0.25, 0.5],
+            [0.25, 0, 0.25],
+            [0.5, 0.25, 0]
+        ]
+
+        # Assert equal
+        self.assertEqual(h_matrix, expected)

@@ -69,3 +69,22 @@ def create_pher_matrix(model: Dict[int, Hub], dist_matrix: List[List[float]], p_
         pher_matrix.append(row)
 
     return pher_matrix
+
+
+def create_heur_matrix(dist_matrix: List[List[float]], Q=1) -> List[List[float]]:
+    """
+    Creates the heuristic matrix
+
+    Params:
+        dist_matrix - the corresponding distance matrix
+        Q - the scaling factor for Q/distance, default = 1
+
+    returns:
+        Corresponding heuristic matrix to distance matrix
+    """
+    # Get the size of the disrance matrix
+    size = len(dist_matrix)
+    # Create the heuristic matrix using Q/distance for each edge
+    heur_matrix = [[round(Q/dist_matrix[i][j], 4) if i != j else 0
+                    for j in range(size)] for i in range(size)]
+    return heur_matrix
