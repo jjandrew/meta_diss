@@ -34,7 +34,7 @@ class TestPheromoneClass(unittest.TestCase):
         ]
 
         # Update the pheromone and check it is evaporated
-        update_pheromone(p=self.p, paths=[], costs=[], e=e, Q=1)
+        update_pheromone(p=self.p, paths=[], fitnesses=[], e=e, Q=1)
 
         self.assertEqual(self.p, expected)
 
@@ -55,7 +55,7 @@ class TestPheromoneClass(unittest.TestCase):
         Q = 10
 
         # Update pheromone without evaporation
-        update_pheromone(p=self.p, paths=paths, costs=costs, e=0, Q=Q)
+        update_pheromone(p=self.p, paths=paths, fitnesses=costs, e=0, Q=Q)
 
         # create expected new pheromone matrix
         expected = [

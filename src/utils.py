@@ -7,7 +7,7 @@ from math import inf
 import copy
 
 
-def fitness(path: List[Dict[str, int]], model: List[Hub]) -> int:
+def fitness(path: List[Dict[str, int]], model: Dict[int, Hub]) -> int:
     """
     Function for calculating fitness (distance) of a solution
 
@@ -18,10 +18,6 @@ def fitness(path: List[Dict[str, int]], model: List[Hub]) -> int:
     returns
         Total distance of the solution
     """
-    # Convert list of hubs into a dictionary to make it easier (and faster) to search
-    hub_dict = {}
-    for hub in model:
-        hub_dict[hub.get_name()] = hub
 
     # Counter for total distance
     total_dist = 0
@@ -29,7 +25,7 @@ def fitness(path: List[Dict[str, int]], model: List[Hub]) -> int:
     # For each of the journeys
     for j in path:
         # Assign hub1 to the relative hubs in the model
-        hub1: Hub = hub_dict[j['from']]
+        hub1: Hub = model[j['from']]
 
         # Get the distance to the 'to' hub in the journey
         dist = hub1.get_connections()[j['to']]
