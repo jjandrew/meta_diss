@@ -50,8 +50,8 @@ class TestHubClass(unittest.TestCase):
 
         # Check distance between hubs is calculated correctly and added to dictionary of both hubs
         hub0.add_connection(hub=hub1)
-        self.assertEquals(10, hub0.get_connections()[1])
-        self.assertEquals(10, hub1.get_connections()[0])
+        self.assertEqual(10, hub0.get_connections()[1])
+        self.assertEqual(10, hub1.get_connections()[0])
 
     def test_movement_of_s(self):
         """Tests supply can be moved between hubs to reach an equilibrium"""

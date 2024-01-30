@@ -14,7 +14,7 @@ class TestUtilsClass(unittest.TestCase):
     """
     Test class for the repeated functions
     """
-    model = []
+    model = {}
 
     def setUp(self):
         """Setup for the tests (to create the model)"""
@@ -24,7 +24,7 @@ class TestUtilsClass(unittest.TestCase):
         hub2 = Hub(name=2, s=10, long=2, lat=0)
 
         # Place in an array
-        self.model = [hub0, hub1, hub2]
+        self.model = {0: hub0, 1: hub1, 2: hub2}
 
         # Add the connections
         hub0.add_connection(hub1)
@@ -109,6 +109,6 @@ class TestUtilsClass(unittest.TestCase):
         hub1 = Hub(name=1, s=0, long=1, lat=2)
         hub2 = Hub(name=2, s=0, long=2, lat=0)
         # Place in an array
-        model = [hub0, hub1, hub2]
+        model = {0: hub0, 1: hub1, 2: hub2}
         # check it is resolved
         self.assertTrue(is_resolved(model=model))

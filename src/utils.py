@@ -36,7 +36,7 @@ def fitness(path: List[Dict[str, int]], model: Dict[int, Hub]) -> int:
     return total_dist
 
 
-def is_resolved(model: List[Hub]) -> bool:
+def is_resolved(model: Dict[int, Hub]) -> bool:
     """
     Returns whether or not a model is in equilibrium
     params:
@@ -47,13 +47,13 @@ def is_resolved(model: List[Hub]) -> bool:
     """
     # If any of the hubs are not in equilibrium, return false
     for hub in model:
-        if hub.get_s() != 0:
+        if model[hub].get_s() != 0:
             return False
     # If all hubs in equiirbium, return true
     return True
 
 
-def get_closest_hub(hub: Hub, model: List[Hub]) -> Hub:
+def get_closest_hub(hub: Hub, model: Dict[int, Hub]) -> Hub:
     """
     Get the closest connection to a hub
 
@@ -75,35 +75,17 @@ def get_closest_hub(hub: Hub, model: List[Hub]) -> Hub:
     closest_hub_name = min(connections, key=connections.get)
     # Get the object for the closest hub
     closest_hub = next(
-        (hub for hub in model if hub.get_name() == closest_hub_name), None)
+        (model[hub] for hub in model if model[hub].get_name() == closest_hub_name), None)
 
     return closest_hub
 
 
-def get_hub_from_name(name: int, model: List[Hub]) -> Hub:
-    """
-    Returns the hub object corresponding to the name
-
-    params 
-        name - The integer value representing the hub
-        model - A list of hub objects
-
-    returns
-        Hub object
-    """
-    for hub in model:
-        if hub.get_name() == name:
-            return hub
-
-    raise ValueError(f'Hub {name} not present in model')
-
-
-def reduce_model(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
+def reduce_model(model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Reduces the model by adding journeys that must be in a best solution
 
     params:
-        model - a list of hubs which have a supply value to be solved
+        model - a dictionary of hubs which have a supply value to be solved
         max_journey_size - The maximum number of goods that can be moved between hubs
 
     returns
@@ -112,7 +94,8 @@ def reduce_model(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]
     journeys = []
 
     # For each hub in the model
-    for hub in model:
+    for hub_name in model:
+        hub = model[hub_name]
         # Get the direction of the hub
         hub_surplus = True
         if hub.get_s() < 0:
@@ -150,7 +133,7 @@ def reduce_model(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]
     return journeys
 
 
-def improve_solution(solution: List[Dict[str, int]], model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
+def improve_solution(solution: List[Dict[str, int]], model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Improves the final solution in the scenario that the fitness can be improved by a journey adding more s to a surplus hub
 
@@ -185,7 +168,7 @@ def improve_solution(solution: List[Dict[str, int]], model: List[Hub], max_journ
     # For each of the deficit nodes (Z)
     for def_node in grouped_shorter_journeys.keys():
         # Get a value for the Z_hub and its connections
-        Z_hub: Hub = get_hub_from_name(name=def_node, model=model)
+        Z_hub = model[def_node]
         Z_connections = Z_hub.get_connections()
         # print()
         # print()
@@ -241,7 +224,7 @@ def improve_solution(solution: List[Dict[str, int]], model: List[Hub], max_journ
             final_closest: Hub = None
             dist_from_A = inf
             # Get the hub objects for A and Z
-            A_hub = get_hub_from_name(name=journey['from'], model=model)
+            A_hub = model[journey['from']]
             A_connections = A_hub.get_connections()
 
             # TODO fairly sure working to here
@@ -250,7 +233,7 @@ def improve_solution(solution: List[Dict[str, int]], model: List[Hub], max_journ
             for j_index in range(journey_index + 1, len(ordered_journeys)):
                 j = ordered_journeys[j_index]
                 # Get hub object for B
-                B_hub = get_hub_from_name(name=j['from'], model=model)
+                B_hub = model[j['from']]
                 # print(f'B = {B_hub.get_name()}, index = {j_index}')
 
                 # Make sure B and A hubs are not the same
@@ -298,7 +281,7 @@ def improve_solution(solution: List[Dict[str, int]], model: List[Hub], max_journ
     return final_solution
 
 
-def apply_path(path: List[Dict[str, int]], model: List[Hub]):
+def apply_path(path: List[Dict[str, int]], model: Dict[int, Hub]):
     """
     Applies a list of journeys to a model to get a new model state
 
@@ -309,14 +292,14 @@ def apply_path(path: List[Dict[str, int]], model: List[Hub]):
     # For every journey
     for journey in path:
         # Get the hub objects the journey is going from and to
-        from_hub = get_hub_from_name(name=journey['from'], model=model)
-        to_hub = get_hub_from_name(name=journey['to'], model=model)
+        from_hub = model[journey['from']]
+        to_hub = model[journey['to']]
 
         # Move the correct quantitiy between the hubs
         Hub.move_s(start=from_hub, end=to_hub, s=journey['s'])
 
 
-def is_complete(path: List[Dict[str, int]], original_model_state: List[Hub]) -> bool:
+def is_complete(path: List[Dict[str, int]], original_model_state: Dict[int, Hub]) -> bool:
     """
     Checks whether a path leads to a model being in equilibrium
 

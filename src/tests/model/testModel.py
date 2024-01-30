@@ -96,12 +96,12 @@ class TestModelCreationClass(unittest.TestCase):
 
         # Test every item in the model is a hub object
         for hub in model:
-            self.assertIsInstance(hub, Hub)
+            self.assertIsInstance(model[hub], Hub)
 
         # Check the sum of s of all hubs is 0
         sum_s = 0
         for hub in model:
-            sum_s += hub.get_s()
+            sum_s += model[hub].get_s()
         self.assertEqual(0, sum_s)
 
         # Check s value of hub class is 0
@@ -109,7 +109,7 @@ class TestModelCreationClass(unittest.TestCase):
 
         # Check hubs aren't initialised with s=0
         for hub in model:
-            self.assertNotEqual(0, hub.get_s())
+            self.assertNotEqual(0, model[hub].get_s())
 
         # Check the distances between hubs are correct manhattan distances and all distances are present
         # Compare all possible pairs of hubs

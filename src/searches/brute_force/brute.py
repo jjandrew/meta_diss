@@ -8,7 +8,7 @@ from math import inf
 import copy
 
 
-def next_steps(starting_hub: Hub, deficit_hubs: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
+def next_steps(starting_hub: Hub, deficit_hubs: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Find all possible routes from a surplus hub to deficit hubs
 
@@ -24,7 +24,8 @@ def next_steps(starting_hub: Hub, deficit_hubs: List[Hub], max_journey_size: int
     journeys = []
 
     # Go through each of the deficit hubs
-    for def_hub in deficit_hubs:
+    for def_hub_name in deficit_hubs:
+        def_hub = deficit_hubs[def_hub_name]
         # Check deficit hub isn't resolved
         if def_hub.get_s() == 0:  # If it is
             continue  # Ignore it
@@ -41,7 +42,7 @@ def next_steps(starting_hub: Hub, deficit_hubs: List[Hub], max_journey_size: int
     return journeys
 
 
-def brute(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
+def brute(model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Performs a brute force search on the model that is passed in
 
@@ -62,8 +63,8 @@ def brute(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
         model=model, max_journey_size=max_journey_size)
 
     # Split hubs into surplus and deficit hubs
-    surplus_hubs = [hub for hub in model if hub.get_s() > 0]
-    deficit_hubs = [hub for hub in model if hub.get_s() < 0]
+    surplus_hubs = {hub: model[hub] for hub in model if model[hub].get_s() > 0}
+    deficit_hubs = {hub: model[hub] for hub in model if model[hub].get_s() < 0}
 
     # A list of the current best solution and its fitness
     best_solution = []
@@ -81,7 +82,8 @@ def brute(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
             first = False
 
             # Look for the next steps from each of the surplus nodes
-            for sur_hub in surplus_hubs:
+            for sur_hub_name in surplus_hubs:
+                sur_hub = surplus_hubs[sur_hub_name]
                 # Get the next possible journeys from a surplus hub
                 journeys = next_steps(
                     starting_hub=sur_hub, deficit_hubs=deficit_hubs, max_journey_size=max_journey_size)
@@ -99,14 +101,16 @@ def brute(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
             apply_path(model=model_in_state, path=path)
 
             # Split hubs into surplus and deficit hubs
-            surplus_hubs = [hub for hub in model_in_state if hub.get_s() > 0]
-            deficit_hubs = [hub for hub in model_in_state if hub.get_s() < 0]
+            surplus_hubs = {
+                hub: model_in_state[hub] for hub in model_in_state if model_in_state[hub].get_s() > 0}
+            deficit_hubs = {
+                hub: model_in_state[hub] for hub in model_in_state if model_in_state[hub].get_s() < 0}
 
             # store the next possible journeys
             next_js = []
             # for each surplus hub
-            for sur_hub in surplus_hubs:
-
+            for sur_hub_name in surplus_hubs:
+                sur_hub = surplus_hubs[sur_hub_name]
                 # Generate all next journeys and add to next_js
                 next_js.extend(next_steps(
                     starting_hub=sur_hub, deficit_hubs=deficit_hubs, max_journey_size=max_journey_size))
@@ -115,8 +119,6 @@ def brute(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
             for j in next_js:
                 new_path = copy.copy(path) + [j]
                 new_paths.append(new_path)
-
-        ########################### TODO WORKING TO HERE ##########################
 
         paths = []
 

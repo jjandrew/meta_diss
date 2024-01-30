@@ -19,7 +19,8 @@ class TestRandomSolutionClass(unittest.TestCase):
         """Checks that the function returns a valid solution"""
         # Sum the absolute s values of the models
         model_abs_s = 0
-        for hub in self.model:
+        for hub_name in self.model:
+            hub = self.model[hub_name]
             model_abs_s += abs(hub.get_s())
 
         # Obtain a solution

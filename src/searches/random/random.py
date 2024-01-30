@@ -8,106 +8,75 @@ import random
 import copy
 
 
-def random_search(model: List[Hub], max_journey_size: int) -> List[Dict[str, int]]:
+def perform_journey(sur_hub: Hub, def_hub: Hub, max_journey_size: int) -> (Dict[str, int], List[int]):
+    """
+    Performs a jouurney of maximum quanitity from surplus to deficit hub
+
+    params
+        sur_hub - The surplus hub
+        def_hub - The deficit hub
+        max_journey_size - The maximum size of hourney allowed per journey
+
+    returns
+        Tuple of journey as {from, to, s} and List of any hub that have reach equilibrium as a result
+    """
+    # Calculate the movement size
+    move_size = min(sur_hub.get_s(), abs(def_hub.get_s()), max_journey_size)
+
+    # Perform the movement
+    Hub.move_s(start=sur_hub, end=def_hub, s=move_size)
+
+    # Put the journey in a dictionary
+    journey = {'from': sur_hub.get_name(), 'to': def_hub.get_name(),
+               's': move_size}
+
+    # Check if any of the hubs have reach equilibrium
+    equilibrium_hubs = []
+    if sur_hub.get_s() == 0:
+        equilibrium_hubs.append(sur_hub.get_name())
+
+    if def_hub.get_s() == 0:
+        equilibrium_hubs.append(def_hub.get_name())
+
+    return journey, equilibrium_hubs
+
+
+def random_search(model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Performs a random search on the model that is passed in
 
     params:
-        model - a list of hubs which have a supply value to be solved
+        model - a dictionary of hub name: hub objectio of hubs which have a supply value to be solved
         max_journey_size - The maximum number of goods that can be moved between hubs
 
     returns
-        List[{from, to, s}]
+        List of journeys of form [{from, to, s}]
     """
-    journeys = []
+    path = []
 
-    hubs_to_resolve: List[Hub] = copy.copy(model)
+    # Split hubs into surplus and deficit hubs
+    sur_hubs = {hub: model[hub] for hub in model if model[hub].get_s() > 0}
+    def_hubs = {hub: model[hub] for hub in model if model[hub].get_s() < 0}
 
-    # while there are still hubs to be resolved
-    while not is_resolved(model=model):
-        # Choose a random hub to resolve
-        rand_loc = random.randint(0, len(hubs_to_resolve) - 1)
-        # Obtain the hub
-        chosen_hub: Hub = hubs_to_resolve[rand_loc]
+    # Repeat until no more surplus hubs left
+    while len(sur_hubs) > 0:
+        # Pick a random surplus hub
+        sur_hub = random.choice(list(sur_hubs.keys()))
+        # Pick a random deficit hub
+        def_hub = random.choice(list(def_hubs.keys()))
 
-        # do not want to compare hub to itself so remove it from to resolve
-        hubs_to_resolve.pop(rand_loc)
+        # Perform the journey from surplus to deficit hub
+        journey, resolved_hubs = perform_journey(
+            sur_hub=sur_hubs[sur_hub], def_hub=def_hubs[def_hub], max_journey_size=max_journey_size)
 
-        # Check if the chosen hub is in deficit or surplus
-        surplus = False
-        if chosen_hub.get_s() > 0:
-            surplus = True
+        # Add the journey
+        path.append(journey)
 
-        # Continue until resolution
-        while chosen_hub.get_s() != 0:
-            # Choose a random hub to perform move with
-            mv_loc = random.randint(0, len(hubs_to_resolve) - 1)
-            movement_hub: Hub = hubs_to_resolve[mv_loc]
-
-            # Do nothing if the chosen hub does not work towards a solution
-            if surplus and movement_hub.get_s() > 0:
-                continue
-            elif not surplus and movement_hub.get_s() < 0:
-                continue
-
-            # Doesn't resolve chosen hub, therefore abs(chosen_hub.get(s)) > max_journey_size
-            # or more to resolve in chosen_hub than movement hub
-            if (abs(chosen_hub.get_s()) > max_journey_size) or abs(chosen_hub.get_s()) > abs(movement_hub.get_s()):
-                # Check if journey would resolve the movement hub
-                if abs(movement_hub.get_s()) > max_journey_size:  # Will not resolve
-                    # Perform a journey of maximum size
-                    # If chosen hub in surplus then moving from chosen hub
-                    if surplus:
-                        # Add journey to list
-                        journeys.append({'from': chosen_hub.get_name(
-                        ), 'to': movement_hub.get_name(), 's': max_journey_size})
-                        # Move from chosen hub to movement hub
-                        Hub.move_s(start=chosen_hub,
-                                   end=movement_hub, s=max_journey_size)
-                    else:  # chosen hub in deficit
-                        # Add journey to list
-                        journeys.append({'from': movement_hub.get_name(
-                        ), 'to': chosen_hub.get_name(), 's': max_journey_size})
-                        # Move from movement hub to chosen hub
-                        Hub.move_s(start=movement_hub,
-                                   end=chosen_hub, s=max_journey_size)
-                else:  # Move will resolve movement hub
-                    # Move absolute of its value
-                    if surplus:  # Chosen in surplus
-
-                        # Add journey to list
-                        journeys.append({'from': chosen_hub.get_name(
-                        ), 'to': movement_hub.get_name(), 's': abs(movement_hub.get_s())})
-                        # Move from chosen to movement
-                        Hub.move_s(start=chosen_hub, end=movement_hub,
-                                   s=abs(movement_hub.get_s()))
-                    else:  # Chosen in deficit
-                        # Add journey to list
-                        journeys.append({'from': movement_hub.get_name(
-                        ), 'to': chosen_hub.get_name(), 's': abs(movement_hub.get_s())})
-                        # Move from movement to chose
-                        Hub.move_s(start=movement_hub, end=chosen_hub,
-                                   s=abs(movement_hub.get_s()))
-
-                    # Remove movement hub from hubs to resolve
-                    hubs_to_resolve.pop(mv_loc)
-
-            # Else difference is resolved with this journey
+        # Remove any resolved hubs
+        for r_hub in resolved_hubs:
+            if r_hub in sur_hubs:
+                del sur_hubs[r_hub]
             else:
-                # Move chosen_hub.get(s) in right direction
-                if surplus:  # if chosen hub in surplus
-                    # Add journey to list
-                    journeys.append({'from': chosen_hub.get_name(
-                    ), 'to': movement_hub.get_name(), 's': abs(chosen_hub.get_s())})
-                    # Move from chosen to movement
-                    Hub.move_s(start=chosen_hub, end=movement_hub,
-                               s=abs(chosen_hub.get_s()))
-                else:  # chosen hub in deficit
-                    # Add journey to list
-                    journeys.append({'from': movement_hub.get_name(
-                    ), 'to': chosen_hub.get_name(), 's': abs(chosen_hub.get_s())})
-                    # Move from movement to chosen
-                    Hub.move_s(start=movement_hub, end=chosen_hub,
-                               s=abs(chosen_hub.get_s()))
+                del def_hubs[r_hub]
 
-    return journeys
+    return path

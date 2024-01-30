@@ -125,14 +125,12 @@ class TestACOPathGenerationClass(unittest.TestCase):
         # Create a model
         model = create_model(n=100, alpha=2, max_def=-20, max_sur=20)
 
-        model_dict = {hub.get_name(): hub for hub in model}
+        d = create_dist_matrix(model=model)
+        h = create_heur_matrix(dist_matrix=d)
+        p = create_pher_matrix(model=model, dist_matrix=d)
 
-        d = create_dist_matrix(model_dict)
-        h = create_heur_matrix(d)
-        p = create_pher_matrix(model_dict, d)
-
-        sur_hubs = {hub.get_name(): hub for hub in model if hub.get_s() > 0}
-        def_hubs = {hub.get_name(): hub for hub in model if hub.get_s() < 0}
+        sur_hubs = {hub: model[hub] for hub in model if model[hub].get_s() > 0}
+        def_hubs = {hub: model[hub] for hub in model if model[hub].get_s() < 0}
 
         max_j_size = 10
 

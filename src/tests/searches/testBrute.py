@@ -17,7 +17,7 @@ class TestBruteClass(unittest.TestCase):
         """
         Test for the brute force solution finder
         """
-        # Create an 1000 node model
+        # Create an 5 node model
         model = create_model(n=5, alpha=2, max_def=-10, max_sur=10)
         max_journey_size = 5
 
@@ -47,7 +47,7 @@ class TestBruteClass(unittest.TestCase):
         def_hub_2 = Hub(name=2, s=-2, long=0, lat=0)
         def_hub_3 = Hub(name=3, s=-5, long=0, lat=0)
 
-        def_hubs = [def_hub_1, def_hub_2, def_hub_3]
+        def_hubs = {1: def_hub_1, 2: def_hub_2, 3: def_hub_3}
 
         # Obtain the next journeys
         next_js = next_steps(starting_hub=starting_hub,
