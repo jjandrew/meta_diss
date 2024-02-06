@@ -4,6 +4,7 @@ Main body of the genetic algorithm
 from model.hub import Hub
 from typing import Dict, List
 from searches.ga.population import gen_pop
+from utils import fitness
 
 
 def ga(mutation_rate: float, pop_size: int, n: int, model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
@@ -23,3 +24,18 @@ def ga(mutation_rate: float, pop_size: int, n: int, model: Dict[int, Hub], max_j
     # Generate a population of pop_size feasible solutions
     pop = gen_pop(pop_size=pop_size,  model=model,
                   max_journey_size=max_journey_size)
+
+    # Keep track of the number of populations
+    iters = 0
+    # While the number of iters is lower than terminating criterion
+    while iters < n:
+        #  Sort the population in order of fitness (highest first)
+
+        # Perform selection
+
+        # Perform crossover
+
+        # Perform mutation
+
+        # +1 iteration as new population generated
+        iters += 1
