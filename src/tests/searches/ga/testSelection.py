@@ -3,7 +3,7 @@ Tests the evaluation method for the genetic algorithm
 """
 import unittest
 from model.hub import Hub
-from searches.ga.evalutation import rank_pop
+from searches.ga.selection import tournament
 
 
 class TestGAEvaluationClass(unittest.TestCase):
@@ -30,18 +30,15 @@ class TestGAEvaluationClass(unittest.TestCase):
 
         # Create a population of 3 solutions, out of order
         pop = [
-            [(0, 2, 1), (0, 2, 1), (0, 1, 1)],  # Fitness - 6
-            [(0, 1, 1), (0, 1, 1), (0, 1, 1)],  # Fitness - 3
-            [(0, 3, 1), (0, 3, 1), (0, 3, 1)]  # Fitness - 9
+            [(0, 1, 1), (0, 1, 1), (0, 1, 1)],  # Cost - 3
+            [(0, 2, 1), (0, 2, 1), (0, 2, 1)],  # Cost - 6
+            [(0, 3, 1), (0, 3, 1), (0, 3, 1)]  # Cost - 9
         ]
 
-        # Expected to be ordered from highest to lowest
-        expected = [
-            [(0, 3, 1), (0, 3, 1), (0, 3, 1)],  # Fitness - 9
-            [(0, 2, 1), (0, 2, 1), (0, 1, 1)],  # Fitness - 6
-            [(0, 1, 1), (0, 1, 1), (0, 1, 1)]  # Fitness - 3
-        ]
+        # Check that the best is returned in a tournament of size of population
+        selected = tournament(pop=pop, t_size=3, model=model)
 
-        rank_pop(pop=pop, model=model)
+        # Obtain the expected journey
+        expected_j = [(0, 1, 1), (0, 1, 1), (0, 1, 1)]
 
-        self.assertEqual(pop, expected)
+        self.assertEqual(selected, expected_j)

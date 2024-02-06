@@ -4,7 +4,7 @@ Main body of the genetic algorithm
 from model.hub import Hub
 from typing import Dict, List
 from searches.ga.population import gen_pop
-from utils import fitness
+from searches.ga.selection import tournament
 
 
 def ga(mutation_rate: float, pop_size: int, n: int, model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
@@ -29,13 +29,20 @@ def ga(mutation_rate: float, pop_size: int, n: int, model: Dict[int, Hub], max_j
     iters = 0
     # While the number of iters is lower than terminating criterion
     while iters < n:
-        #  Sort the population in order of fitness (highest first)
-
-        # Perform selection
-
-        # Perform crossover
-
-        # Perform mutation
-
         # +1 iteration as new population generated
         iters += 1
+
+        #  Sort the population in order of fitness (highest first)
+        rank_pop(pop=pop, model=model)
+
+        # Store the new population
+        new_pop = []
+
+        # Start creating the new population until it is of the correct size
+        while len(new_pop) < pop_size:
+            # Select two parents
+
+
+            # Perform crossover
+
+            # Perform mutation
