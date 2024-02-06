@@ -42,3 +42,12 @@ class TestGAEvaluationClass(unittest.TestCase):
         expected_j = [(0, 1, 1), (0, 1, 1), (0, 1, 1)]
 
         self.assertEqual(selected, expected_j)
+
+        # Check that one of the best two are returned when t_size = 2
+
+        # Create the second expected
+        expected_j_2 = [(0, 2, 1), (0, 2, 1), (0, 2, 1)]
+
+        for _ in range(10):
+            selected = tournament(pop=pop, t_size=2, model=model)
+            self.assertTrue(selected == expected_j or selected == expected_j_2)
