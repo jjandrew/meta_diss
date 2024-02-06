@@ -18,7 +18,9 @@ def encode_solution(path: List[Dict[str, int]]) -> List[tuple]:
         Chromosome of [(from, to, s)]
     """
     encoded = []
+    # For each journey in the path
     for j in path:
+        # Convert into a tuple
         encoded_j = (j['from'], j['to'], j['s'])
         encoded.append(encoded_j)
     return encoded
@@ -46,3 +48,21 @@ def gen_pop(pop_size: int, model: Dict[int, Hub], max_journey_size: int) -> List
         # Add the encoded solution to the population
         pop.append(encode_solution(path=path))
     return pop
+
+
+def decode_solution(path: List[tuple]) -> List[Dict[str, int]]:
+    """
+    Converts a path from a chromosome of form [(from, to, s)] to [{from, to, s}]
+
+    params
+        path -  A list of tuples representing the journey of form (from, to, s)
+
+    returns
+        A list of dictionaries of journeys of form: [{from, to s}]
+    """
+    decoded = []
+    for j in path:
+        # Convert tuple into dictionary
+        decoded_j = {'from': j[0], 'to': j[1], 's': j[2]}
+        decoded.append(decoded_j)
+    return decoded

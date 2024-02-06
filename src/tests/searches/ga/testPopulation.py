@@ -2,7 +2,7 @@
 Test case for the GA population creation
 """
 import unittest
-from searches.ga.population import encode_solution, gen_pop
+from searches.ga.population import encode_solution, gen_pop, decode_solution
 from model.model import create_model
 from typing import List
 
@@ -25,6 +25,23 @@ class TestGAPopulationClass(unittest.TestCase):
 
         # Obtain the actual solution
         actual_solution = encode_solution(path=example_solution)
+
+        # Check they are the same
+        self.assertEqual(expected_solution, actual_solution)
+
+    def test_solution_decoding(self):
+        """
+        Tests a solution is decoded correctly from a chromosome
+        """
+        # Create an example solution
+        example_solution = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9, 10, 11)]
+
+        # Expected solution
+        expected_solution = [{'from': 0, 'to': 1, 's': 2}, {'from': 3, 'to': 4, 's': 5}, {
+            'from': 6, 'to': 7, 's': 8}, {'from': 9, 'to': 10, 's': 11}]
+
+        # Generate an actual solution
+        actual_solution = decode_solution(path=example_solution)
 
         # Check they are the same
         self.assertEqual(expected_solution, actual_solution)
