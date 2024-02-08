@@ -1,7 +1,7 @@
 """
 Performs selection for the genetic algorithm
 """
-from typing import List, Dict
+from typing import List, Dict, Tuple
 import random
 from math import inf
 from searches.ga.population import encode_solution, decode_solution
@@ -9,7 +9,7 @@ from utils import fitness
 from model.hub import Hub
 
 
-def tournament(pop: List[List[tuple]], t_size: int, model: Dict[int, Hub]) -> List[tuple]:
+def tournament(pop: List[List[Tuple[int, int, int]]], t_size: int, model: Dict[int, Hub]) -> List[Tuple[int, int, int]]:
     """
     Performs tournament selection on a population
 

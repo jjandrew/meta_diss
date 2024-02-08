@@ -1,13 +1,13 @@
 """
 Encodes a solution into a chromosome
 """
-from typing import Dict, List
+from typing import Dict, List, Tuple
 import copy
 from model.hub import Hub
 from searches.random.random import random_search
 
 
-def encode_solution(path: List[Dict[str, int]]) -> List[tuple]:
+def encode_solution(path: List[Dict[str, int]]) -> List[Tuple[int, int, int]]:
     """
     Converts a path into a chromosome of form [{from, to, s}] to [(from, to, s)]
 
@@ -26,7 +26,7 @@ def encode_solution(path: List[Dict[str, int]]) -> List[tuple]:
     return encoded
 
 
-def decode_solution(path: List[tuple]) -> List[Dict[str, int]]:
+def decode_solution(path: List[Tuple[int, int, int]]) -> List[Dict[str, int]]:
     """
     Converts a path from a chromosome of form [(from, to, s)] to [{from, to, s}]
 
@@ -44,7 +44,7 @@ def decode_solution(path: List[tuple]) -> List[Dict[str, int]]:
     return decoded
 
 
-def gen_pop(pop_size: int, model: Dict[int, Hub], max_journey_size: int) -> List[List[tuple]]:
+def gen_pop(pop_size: int, model: Dict[int, Hub], max_journey_size: int) -> List[List[Tuple[int, int, int]]]:
     """
     Generates an initial population for the genetic algorithm as a list of chromosomes
 

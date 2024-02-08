@@ -1,11 +1,11 @@
 """
 Mutation functions for the genetic algorithm
 """
-from typing import List
+from typing import List, Tuple
 import random
 
 
-def swap(parent: List[tuple], mutation_rate: float) -> List[tuple]:
+def swap(parent: List[Tuple[int, int, int]], mutation_rate: float) -> List[Tuple[int, int, int]]:
     """
     Swaps two random deficit hubs with a probability of mutation_rate
 
