@@ -5,6 +5,11 @@ from model.hub import Hub
 from typing import Dict, List
 from searches.ga.population import gen_pop
 from searches.ga.selection import tournament
+from searches.ga.crossover import uniform
+from searches.ga.mutation import swap
+from searches.ga.fixing.fixing import fix
+import random
+import copy
 
 
 def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
@@ -43,5 +48,21 @@ def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int
             parent_2 = tournament(pop=pop, t_size=t_size, model=model)
 
             # Perform crossover
+            child_1, child_2 = uniform(parent_1=parent_1, parent_2=parent_2)
 
             # Perform mutation
+            child_1 = swap(parent=child_1, mutation_rate=mutation_rate)
+            child_2 = swap(parent=child_2, mutation_rate=mutation_rate)
+
+        # If there is an odd number in population and new population is too large
+        if len(new_pop) > pop_size:
+            # Remove a member from the new population at random
+            i = random.randint(0, len(new_pop)-1)
+            del new_pop[i]
+
+        # Perform a fixing algorithm on every member of the new population
+        for path in new_pop:
+            fix(path=path, model=copy.deepcopy(model))
+
+        # Add the new population to the old one
+        pop = new_pop

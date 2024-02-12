@@ -1,11 +1,11 @@
 """
 Performs the crossover method for a GA
 """
-from typing import List
+from typing import List, Tuple
 import random
 
 
-def uniform(parent_1: List[tuple], parent_2: List[tuple]) -> (List[tuple], List[tuple]):
+def uniform(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[int, int, int]]) -> Tuple[List[Tuple[int, int, int]], List[Tuple[int, int, int]]]:
     """
     Performs a uniform crossover on two parents. 
     This means that each gene in the child will be randomly taken from either parent using a coin toss.
