@@ -5,7 +5,7 @@ from searches.random.random import random_search
 from typing import Dict, List
 from model.hub import Hub
 from utils import fitness
-from searches.sa.neighbourhood import neighbour_gen
+from searches.sa.neighbourhood import gen_neighbour, compress_neighbour
 import random
 import math
 
@@ -46,6 +46,19 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
     returns
         The final solution
     """
+    # Check there are more than 1 unique surplus and deficit hub, if not return solution
+    def_hubs = 0
+    sur_hubs = 0
+    for hub_name in model:
+        if model[hub_name].get_s() < 0:
+            def_hubs += 1
+        else:
+            sur_hubs += 1
+
+    if def_hubs <= 1 or sur_hubs <= 1:
+        print("There must be at least two different types of hub.")
+        return []
+
     # Set initial temperature to the start temperature
     temp = start_temp
 
@@ -55,17 +68,28 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
     # Calculate the fitness (energy) of the solution
     cur_e = fitness(path=cur_solution, model=model)
 
+    og_e = cur_e
+
     # TODO Store the best so far ?? Maybe do not use as not really in algorithm but do anyway
     best_solution = cur_solution
+
     best_e = cur_e
 
     # For n iterations
-    for _ in range(n):
+    for i in range(n):
         # Generate a random neighbour
-        neighbour = neighbour_gen(solution=cur_solution)
+        neighbour = gen_neighbour(path=cur_solution)
+
+        # Compress the neighbour
+        neighbour = compress_neighbour(
+            path=neighbour, max_journey_size=max_journey_size)
+
+        # print(neighbour)
 
         # Calculate the new energy
-        new_e = fitness(path=neighbour)
+        new_e = fitness(path=neighbour, model=model)
+
+        # print(new_e)
 
         # Calculate if new solution is better
         delta_e = new_e - cur_e
@@ -83,4 +107,4 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
 
         temp *= cool_r
 
-    return best_solution
+    return og_e, best_e

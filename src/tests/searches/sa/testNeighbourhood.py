@@ -1,7 +1,7 @@
 """
 Tests the generation of a neighbour
 """
-from searches.sa.neighbourhood import generate_neighbour
+from searches.sa.neighbourhood import gen_neighbour, compress_neighbour
 import unittest
 
 
@@ -22,7 +22,7 @@ class TestNeighbourhoodClass(unittest.TestCase):
             {'from': 1, 'to': 4, 's': 10},
             {'from': 3, 'to': 2, 's': 10}
         ]
-        result = generate_neighbour(path=path)
+        result = gen_neighbour(path=path)
 
         self.assertEqual(expected_result, result)
 
@@ -39,6 +39,26 @@ class TestNeighbourhoodClass(unittest.TestCase):
             {'from': 3, 'to': 2, 's': 9},
             {'from': 1, 'to': 2, 's': 1}
         ]
-        result = generate_neighbour(path=path)
+        result = gen_neighbour(path=path)
+
+        self.assertEqual(result, expected)
+
+    def test_compression(self):
+        """
+        Tests that a path can be compressed to ensure it is optimal
+        """
+        path = [
+            {'from': 1, 'to': 4, 's': 9},
+            {'from': 3, 'to': 2, 's': 9},
+            {'from': 1, 'to': 4, 's': 1},
+            {'from': 3, 'to': 2, 's': 1}
+        ]
+
+        expected = [
+            {'from': 1, 'to': 4, 's': 10},
+            {'from': 3, 'to': 2, 's': 10}
+        ]
+
+        result = compress_neighbour(path=path, max_journey_size=10)
 
         self.assertEqual(result, expected)
