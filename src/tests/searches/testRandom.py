@@ -3,7 +3,7 @@ Tests for the random search method
 """
 
 import unittest
-from searches.random.random import random_search
+from searches.random import random_search
 from model.hub import Hub
 from model.model import create_model
 

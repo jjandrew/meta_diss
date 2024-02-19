@@ -1,7 +1,7 @@
 """
 Performs the simulated annealing algorithm
 """
-from searches.random.random import random_search
+from searches.random import random_search
 from typing import Dict, List
 from model.hub import Hub
 from utils import fitness

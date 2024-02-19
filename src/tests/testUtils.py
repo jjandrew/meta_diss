@@ -6,7 +6,7 @@ import unittest
 from model.hub import Hub
 from utils import fitness, get_closest_hub, reduce_model, improve_solution, is_resolved
 from model.model import create_model
-from searches.random.random import random_search
+from searches.random import random_search
 import copy
 
 

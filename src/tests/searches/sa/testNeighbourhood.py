@@ -1,7 +1,7 @@
 """
 Tests the generation of a neighbour
 """
-from searches.sa.neighbourhood import gen_neighbour, compress_neighbour
+from searches.sa.neighbourhood import gen_neighbour, compress_neighbour, new_compression
 import unittest
 
 
@@ -59,6 +59,47 @@ class TestNeighbourhoodClass(unittest.TestCase):
             {'from': 3, 'to': 2, 's': 10}
         ]
 
-        result = compress_neighbour(path=path, max_journey_size=10)
+        result = new_compression(path=path, max_journey_size=10)
+
+        self.assertEqual(result, expected)
+
+    def test_compression_can_do_multiple_journeys(self):
+        """
+        Tests that a path can be compressed when multiple journeys are in the compression
+        """
+        path = [
+            {'from': 1, 'to': 4, 's': 8},
+            {'from': 1, 'to': 4, 's': 1},
+            {'from': 1, 'to': 4, 's': 1},
+            {'from': 3, 'to': 2, 's': 9}
+        ]
+
+        expected = [
+            {'from': 1, 'to': 4, 's': 10},
+            {'from': 3, 'to': 2, 's': 9}
+        ]
+
+        result = new_compression(path=path, max_journey_size=10)
+
+        self.assertEqual(result, expected)
+
+    def test_compression_can_do_multiple_consecutive_compressions(self):
+        """
+        Tests that a path can be compressed when multiple compressions are required
+        """
+        path = [
+            {'from': 1, 'to': 4, 's': 8},
+            {'from': 1, 'to': 4, 's': 3},
+            {'from': 1, 'to': 4, 's': 1},
+            {'from': 3, 'to': 2, 's': 9}
+        ]
+
+        expected = [
+            {'from': 1, 'to': 4, 's': 10},
+            {'from': 1, 'to': 4, 's': 2},
+            {'from': 3, 'to': 2, 's': 9}
+        ]
+
+        result = new_compression(path=path, max_journey_size=10)
 
         self.assertEqual(result, expected)
