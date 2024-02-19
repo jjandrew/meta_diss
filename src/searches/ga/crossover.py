@@ -101,15 +101,15 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
 
     # Now compress the solutions
     # Using the compression program from SA algorithm
-    encoded_child = decode_solution(path=child_1)
+    encoded_child_1 = decode_solution(path=child_1)
     compressed_child_1 = compress_neighbour(
-        path=encoded_child, max_journey_size=max_journey_size)
+        path=encoded_child_1, max_journey_size=max_journey_size)
     child_1 = encode_solution(path=compressed_child_1)
 
     # Using the compression program from SA algorithm
-    encoded_child = decode_solution(path=child_2)
+    encoded_child_2 = decode_solution(path=child_2)
     compressed_child_2 = compress_neighbour(
-        path=encoded_child, max_journey_size=max_journey_size)
+        path=copy.deepcopy(encoded_child_2), max_journey_size=max_journey_size)
     child_2 = encode_solution(path=compressed_child_2)
 
     return child_1, child_2

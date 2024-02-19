@@ -6,7 +6,7 @@ import random
 import copy
 
 
-def new_compression(path: List[Dict[str, int]], max_journey_size: int) -> List[Dict[str, int]]:
+def compress_neighbour(path: List[Dict[str, int]], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Compresses a neighbour to improve solution in the case where two journeys with s less than max_journey size have the same surplus and deficit nodes
 
@@ -85,60 +85,6 @@ def new_compression(path: List[Dict[str, int]], max_journey_size: int) -> List[D
             new_path.append(cur_j)
 
         j_idx += 1
-
-    return new_path
-
-
-def compress_neighbour(path: List[Dict[str, int]], max_journey_size: int) -> List[Dict[str, int]]:
-    """
-    Compresses a neighbour to improve solution in the case where two journeys with s less than max_journey size have the same surplus and deficit nodes
-
-    params
-        path - The path a of journeys of form [{from, to, s}]
-        max_journey_size - the maximum size of the journey allowed in the model
-
-    returns
-        Compressed path
-    """
-    # Sort path by j['from'] and the j['to'] and then j['s']
-    path.sort(key=lambda j: (j['from'], j['to'], -j['s']))
-
-    new_path = []
-
-    to_skip = False
-    for j_idx in range(len(path)-1):
-        # check if should skip the next value (it has been removed)
-        if to_skip:
-            to_skip = False
-            continue
-        # Obtain the current and next journeys
-        cur_j = path[j_idx]
-        next_j = path[j_idx+1]
-
-        if cur_j['from'] == next_j['from'] and cur_j['to'] == next_j['to']:
-            # Compare s values, to see if possible to compress
-            if cur_j['s'] == max_journey_size:
-                new_path.append(path[j_idx])
-                continue
-            # Increase s of current journey to equal max journey size, removing from next_j
-            combined_s = cur_j['s'] + next_j['s']
-            if combined_s <= max_journey_size:
-                # Need to delete the item in position next
-                new_path.append(
-                    {'from': cur_j['from'], 'to': cur_j['to'], 's': combined_s})
-                to_skip = True
-            else:
-                # Need to add two journeys to the new path (one of max j size)
-                new_path.append(
-                    {'from': cur_j['from'], 'to': cur_j['to'], 's': max_journey_size})
-                combined_s -= max_journey_size
-                new_path.append(
-                    {'from': cur_j['from'], 'to': cur_j['to'], 's': combined_s})
-        else:
-            new_path.append(path[j_idx])
-    # Need to add the final journey in the path
-    if not to_skip:
-        new_path.append(path[-1])
 
     return new_path
 

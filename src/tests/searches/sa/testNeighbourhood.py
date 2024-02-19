@@ -1,8 +1,9 @@
 """
 Tests the generation of a neighbour
 """
-from searches.sa.neighbourhood import gen_neighbour, compress_neighbour, new_compression
+from searches.sa.neighbourhood import gen_neighbour, compress_neighbour
 import unittest
+from searches.ga.population import decode_solution
 
 
 class TestNeighbourhoodClass(unittest.TestCase):
@@ -59,7 +60,7 @@ class TestNeighbourhoodClass(unittest.TestCase):
             {'from': 3, 'to': 2, 's': 10}
         ]
 
-        result = new_compression(path=path, max_journey_size=10)
+        result = compress_neighbour(path=path, max_journey_size=10)
 
         self.assertEqual(result, expected)
 
@@ -79,7 +80,7 @@ class TestNeighbourhoodClass(unittest.TestCase):
             {'from': 3, 'to': 2, 's': 9}
         ]
 
-        result = new_compression(path=path, max_journey_size=10)
+        result = compress_neighbour(path=path, max_journey_size=10)
 
         self.assertEqual(result, expected)
 
@@ -100,6 +101,22 @@ class TestNeighbourhoodClass(unittest.TestCase):
             {'from': 3, 'to': 2, 's': 9}
         ]
 
-        result = new_compression(path=path, max_journey_size=10)
+        result = compress_neighbour(path=path, max_journey_size=10)
 
         self.assertEqual(result, expected)
+
+    def test_compression_on_larger_problem(self):
+        """
+        Tests the compression method works on a larger problem set
+        """
+        path = [(0, 2, 8), (3, 1, 4), (0, 2, 8), (3, 4, 5), (5, 2, 11),
+                (3, 2, 20), (0, 2, 12), (3, 2, 16), (3, 2, 9), (3, 4, 11)]
+
+        expected = [(0, 2, 20), (0, 2, 8), (3, 1, 4), (3, 2, 20),
+                    (3, 2, 20), (3, 2, 5), (3, 4, 16), (5, 2, 11)]
+
+        decoded = decode_solution(path=path)
+
+        result = compress_neighbour(path=decoded, max_journey_size=20)
+
+        self.assertEqual(decode_solution(path=expected), result)
