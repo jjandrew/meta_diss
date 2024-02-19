@@ -5,7 +5,7 @@ from model.hub import Hub
 from typing import Dict, List
 from searches.ga.population import gen_pop
 from searches.ga.selection import tournament
-from searches.ga.crossover import uniform
+from searches.ga.crossover import aware_crossover
 from searches.ga.mutation import swap
 from searches.ga.fixing.fixing import fix
 import random
@@ -48,11 +48,14 @@ def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int
             parent_2 = tournament(pop=pop, t_size=t_size, model=model)
 
             # Perform crossover
-            child_1, child_2 = uniform(parent_1=parent_1, parent_2=parent_2)
+            child_1, child_2 = aware_crossover(
+                parent_1=parent_1, parent_2=parent_2)
 
             # Perform mutation
-            child_1 = swap(parent=child_1, mutation_rate=mutation_rate)
-            child_2 = swap(parent=child_2, mutation_rate=mutation_rate)
+            child_1 = swap(parent=child_1, mutation_rate=mutation_rate,
+                           max_journey_size=max_journey_size)
+            child_2 = swap(parent=child_2, mutation_rate=mutation_rate,
+                           max_journey_size=max_journey_size)
 
         # If there is an odd number in population and new population is too large
         if len(new_pop) > pop_size:
