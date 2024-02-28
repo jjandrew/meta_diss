@@ -10,7 +10,8 @@ from utils import fitness
 
 
 def AS(model: Dict[int, Hub], m: int, e: float, Q: int, d: List[List[float]],
-       p: List[List[float]], h: List[List[float]], n: int, max_journey_size: int) -> int:
+       p: List[List[float]], h: List[List[float]], n: int, max_journey_size: int,
+       alpha=1, beta=2) -> int:
     """
     Performs the AS algorithm on the data
 
@@ -21,8 +22,10 @@ def AS(model: Dict[int, Hub], m: int, e: float, Q: int, d: List[List[float]],
     Q - constant for fitness normalisation
     d - distance matrix
     p - pheromone matrix
-    n - Termination condition - number of ants before termination
+    n - Termination condition - number of populations before termination
     max_journey_size - The maximum size of each journey
+    alpha - The exponent used to scale the pheromone matrix
+    beta - The exponent used to scale the heuristic matrix
 
     returns:
     min cost route
@@ -47,33 +50,31 @@ def AS(model: Dict[int, Hub], m: int, e: float, Q: int, d: List[List[float]],
     min_fitness = inf
     min_path = []
 
+    # Store fitness as progression
+    all_fitnesses = []
+
     # Num ants for termination criterion
-    num_ants = 0
+    num_pops = 0
 
     # Store start fitness to check for convergence
     start_fitness = -1
+    start_path = []
 
+    # print(p)
     # Repeat until termination criterion is met
-    while num_ants < n:
+    while num_pops < n:
         paths = []
         fitnesses = []
 
         # Create a population of m ants:
         for _ in range(m):
-            # Check number of ants not broken
-            if num_ants > n:
-                break
 
             # Generate a path
             path = generate_path(
-                sur_hubs=surplus_hubs, def_hubs=deficit_hubs, d=d, h=h, p=p, max_journey_size=max_journey_size)
+                sur_hubs=surplus_hubs, def_hubs=deficit_hubs, d=d, h=h, p=p, max_journey_size=max_journey_size, alpha=alpha, beta=beta)
 
             # Calculate the fitness of the solution
             ant_fitness = fitness(path=path, model=model)
-
-            # If it is the first ant, store start fitness to check for covergence
-            if num_ants == 0:
-                start_fitness = ant_fitness
 
             if ant_fitness < min_fitness:
                 min_fitness = ant_fitness
@@ -81,12 +82,36 @@ def AS(model: Dict[int, Hub], m: int, e: float, Q: int, d: List[List[float]],
 
             # Add paths and fitnesses to population paths and fitnesses
             paths.append(path)
+            # print()
+            # print(path)
             fitnesses.append(ant_fitness)
 
-            # Increase number of ant generated
-            num_ants += 1
+        # If the first population
+        if num_pops == 0:
+            # Set the start fitness
+            start_fitness = min(fitnesses)
+            start_path = paths[fitnesses.index(min(fitnesses))]
+
+        num_pops += 1
+
+        all_fitnesses.append(min(fitnesses))
 
         # Update the pheromone using the population
+
         update_pheromone(p=p, paths=paths, fitnesses=fitnesses, e=e, Q=Q)
 
-    return min_path, min_fitness, start_fitness
+        # print()
+        # print()
+        # print(p)
+
+    # for row in p:
+    #     print(row)
+
+    # print()
+    # start_path.sort(key=lambda j: (j['from'], j['to'], -j['s']))
+    # print(start_path)
+    # print()
+    # min_path.sort(key=lambda j: (j['from'], j['to'], -j['s']))
+    # print(min_path)
+
+    return all_fitnesses

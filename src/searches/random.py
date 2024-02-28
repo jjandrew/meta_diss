@@ -10,7 +10,7 @@ import copy
 
 def perform_journey(sur_hub: Hub, def_hub: Hub, max_journey_size: int) -> (Dict[str, int], List[int]):
     """
-    Performs a jouurney of maximum quanitity from surplus to deficit hub
+    Performs a journey of maximum quanitity from surplus to deficit hub
 
     params
         sur_hub - The surplus hub

@@ -64,7 +64,7 @@ class TestGAMuationClass(unittest.TestCase):
         Tests always a mutation when mutation rate 1
         """
         # Perform 100 iterations
-        iters = 1
+        iters = 100
         for _ in range(iters):
             # Try perform a swap with one mutation rate
             res = swap(parent=copy.copy(self.parent),

@@ -1,25 +1,38 @@
 from model.model import create_model
-from visualise import plot_network
+from visualise import plot_network, plot_convergence
 from model.hub import Hub
 from searches.brute_force.brute import brute
+from searches.ga.ga import ga
+from searches.aco.AS import AS
+from searches.sa.sa import sa
+from searches.aco.create_matrices import create_dist_matrix, create_heur_matrix, create_pher_matrix
 from utils import reduce_model
 
+
+def show_best(vals):
+    for i in range(1, len(vals)):
+        if vals[i] > vals[i-1]:
+            vals[i] = vals[i-1]
+
+
 if __name__ == "__main__":
-    sur_hub_0 = Hub(name=0, s=3, long=0, lat=1)
-    sur_hub_1 = Hub(name=1, s=5, long=3, lat=4)
+    n = 30
+    model = create_model(n=n, alpha=2)
 
-    def_hub_2 = Hub(name=2, s=-2, long=2, lat=3)
-    def_hub_3 = Hub(name=3, s=-6, long=0, lat=5)
+    d = create_dist_matrix(model=model)
+    p = create_pher_matrix(model=model, dist_matrix=d, p_min=1, p_max=1)
+    h = create_heur_matrix(dist_matrix=d)
 
-    model = [sur_hub_0, sur_hub_1, def_hub_2, def_hub_3]
+    # vals = sa(start_temp=200, cool_r=0.95,
+    #           max_journey_size=20, model=model, n=10000)
+    m = 20
+    vals = AS(model=model, m=m, e=0.02, Q=1/m*n, d=d,
+              p=p, h=h, n=500, max_journey_size=20, alpha=1, beta=2)
+    show_best(vals)
 
-    for i in range(0, len(model)):
-        for j in range(i+1, len(model)):
-            model[i].add_connection(model[j])
+    # vals = ga(mutation_rate=0.25, pop_size=40, t_size=10, n=500,
+    #           model=model, max_journey_size=20, crossover_rate=0.15)
 
-    # reduce_model(model=model, max_journey_size=2)
+    plot_convergence(vals)
 
-    # for hub in model:
-    #     print(hub)
-
-    print(brute(model=model, max_journey_size=2))
+    plot_network(model=model)

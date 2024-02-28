@@ -10,10 +10,18 @@ from searches.ga.population import encode_solution, decode_solution
 from searches.sa.neighbourhood import compress_neighbour
 
 
-def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[int, int, int]], model: Dict[int, Hub], max_journey_size: int) -> Tuple[List[Tuple[int, int, int]], List[Tuple[int, int, int]]]:
+def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[int, int, int]], model: Dict[int, Hub], max_journey_size: int, crossover_rate: float) -> Tuple[List[Tuple[int, int, int]], List[Tuple[int, int, int]]]:
     """
     Performs a crossover which tries to remain aware of solution to produce two valid children
     """
+    # Generate a random float between 0 and 1
+    rand = random.random()
+
+    # Check if the random value > crossover rate
+    if rand > crossover_rate:
+        # If it is, no crossover occurs and parents are returned
+        return parent_1, parent_2
+
     # Crate blank arrays for a child path and child models
     child_1 = []
     child_1_model = copy.deepcopy(model)

@@ -52,7 +52,7 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
     for hub_name in model:
         if model[hub_name].get_s() < 0:
             def_hubs += 1
-        else:
+        elif model[hub_name].get_s() > 0:
             sur_hubs += 1
 
     if def_hubs <= 1 or sur_hubs <= 1:
@@ -68,7 +68,10 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
     # Calculate the fitness (energy) of the solution
     cur_e = fitness(path=cur_solution, model=model)
 
-    og_e = cur_e
+    start_e = cur_e
+
+    energies = []
+    energies.append(start_e)
 
     # TODO Store the best so far ?? Maybe do not use as not really in algorithm but do anyway
     best_solution = cur_solution
@@ -100,6 +103,8 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
             cur_solution = neighbour
             cur_e = new_e
 
+            energies.append(cur_e)
+
             # Check if new best solution
             if new_e < best_e:
                 best_solution = cur_solution
@@ -107,4 +112,4 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
 
         temp *= cool_r
 
-    return og_e, best_e
+    return energies

@@ -42,7 +42,8 @@ def perform_journey(sur_hub: Hub, def_hub: Hub, max_journey_size: int) -> (Dict[
 
 
 def generate_path(sur_hubs: Dict[int, Hub], def_hubs: Dict[int, Hub],
-                  d: List[List[float]], h: List[List[float]], p: List[List[float]], max_journey_size: int) -> List[Dict[str, int]]:
+                  d: List[List[float]], h: List[List[float]], p: List[List[float]], max_journey_size: int,
+                  alpha=1, beta=2) -> List[Dict[str, int]]:
     """
     Generates a path from surplus to deficit hubs using distance and pheromone matrices
 
@@ -53,16 +54,12 @@ def generate_path(sur_hubs: Dict[int, Hub], def_hubs: Dict[int, Hub],
         h - heuristic matrix
         p - pheromone matrix
         max_journey_size - Maximum journey size
+        alpha - The exponent used to scale the pheromone matrix
+        beta - The exponent used to scale the heuristic matrix
 
     returns 
         Path as list of journeys as dictionaries {from, to, s}
     """
-    # Define alpha and beta
-    # Alpha is the exponent used to scale the pheromone matrix
-    alpha = 1
-    # Beta is the exponent used to scale the heuristic matrix
-    beta = 2
-
     # Make copies of the surplus and deficit hubs so the rest of the algorithm isn't affected
     sur_hubs = copy.deepcopy(sur_hubs)
     def_hubs = copy.deepcopy(def_hubs)
@@ -85,7 +82,7 @@ def generate_path(sur_hubs: Dict[int, Hub], def_hubs: Dict[int, Hub],
         # For each of the neighbours
         for i in range(len(neighbours)):
             # Check hub still to be resolved
-            if i in def_hubs and i in sur_hubs:  # TODO do I want this to be surplus hubs or just deficit hubs?
+            if i in def_hubs:  # TODO do I want this to be surplus hubs or just deficit hubs?
                 # Calculate pher^alpha * heur^beta
                 pher = p[current_hub][i]
                 heur = h[current_hub][i]
