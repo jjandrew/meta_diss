@@ -10,14 +10,13 @@ import random
 import math
 
 
-def accept(delta_e: int, t: float, k=1):
+def accept(delta_e: int, t: float):
     """
     Decides whether or not a solution should be accepted for the SA algorithm
 
     params
         delta_e - The change in energy (whether the solution is better or worse)
         t - The current temperature of the SA algorithn
-        k - Botsmann constant - default of 1
     """
     # Check if the solution is better or worse
     if delta_e < 0:
@@ -25,8 +24,8 @@ def accept(delta_e: int, t: float, k=1):
     else:
         # Generate a random float between 0 and 1
         r = random.random()
-        # See if it's less than e^(-delta_e/kt) and if so accept it
-        if r < math.exp(-delta_e/(k*t)):
+        # See if it's less than e^(-delta_e/t) and if so accept it
+        if r < math.exp(-delta_e/(t)):
             return True
         else:
             return False
@@ -38,7 +37,7 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
 
     params 
         start_temp - The initial temperature of the algorithm
-        n - The number of iterations of the algorithm before termination
+        n - The number of fitness evals before termination
         cool_r - The probability that a worse solution is accepted as the algorithm progresses
         max_journey_size - The maximum journey size
         model - The initial state of the model
@@ -79,7 +78,7 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
     best_e = cur_e
 
     # For n iterations
-    for i in range(n):
+    for _ in range(n):
         # Generate a random neighbour
         neighbour = gen_neighbour(path=cur_solution)
 
@@ -103,12 +102,12 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
             cur_solution = neighbour
             cur_e = new_e
 
-            energies.append(cur_e)
-
             # Check if new best solution
             if new_e < best_e:
                 best_solution = cur_solution
                 best_e = cur_e
+
+        energies.append(cur_e)
 
         temp *= cool_r
 

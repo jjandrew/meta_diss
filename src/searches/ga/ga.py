@@ -23,7 +23,7 @@ def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int
         mutation_rate - The chance of a mutation occurring
         pop_size - The size of the population
         t_size - The size of the tournament
-        n - The termination criterion for how many populations before completion
+        n - The termination criterion for how many fitness evals before completion
         model - The model the algorithm is to be performed on
         max_journey_size - The maximum journey size for the problem
         crossover_rate - The chance that a crossover occurs
@@ -39,26 +39,23 @@ def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int
     start_best_path = []
     start_best_fitness = inf
 
-    pop_fitnesses = []
+    all_fitnesses = []
+
+    # Keep track of the number of fitness evals
+    fitness_evals = 0
 
     for path in pop:
         fit = fitness(path=decode_solution(path=path), model=model)
+        fitness_evals += 1
         if fit < start_best_fitness:
             start_best_path = path
             start_best_fitness = fit
 
-    pop_fitnesses.append(start_best_fitness)
+    all_fitnesses.append(start_best_fitness)
 
-    # Keep track of the best path and best_fitness of each population
-    best_path = []
-    best_fitness = inf
-
-    # Keep track of the number of populations
-    iters = 0
-    # While the number of iters is lower than terminating criterion
-    while iters < n:
+    # While the number of fitness evals is lower than terminating criterion
+    while fitness_evals < n:
         # +1 iteration as new population generated
-        iters += 1
 
         # Store the new population
         new_pop = []
@@ -88,21 +85,18 @@ def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int
             i = random.randint(0, len(new_pop)-1)
             del new_pop[i]
 
-        # Perform a fixing algorithm on every member of the new population
-        for path in new_pop:
-            fix(path=path, model=copy.deepcopy(model))
-
         # Add the new population to the old one
         pop = new_pop
 
-        # Calculate the fittest individual in the pop
+        # Calculate the fitness of individuals in the population
         for path in pop:
+            # Check number of fitness evals
+            if fitness_evals == n:
+                break
             fit = fitness(path=decode_solution(path=path), model=model)
-            if fit < best_fitness:
-                best_path = path
-                best_fitness = fit
-        pop_fitnesses.append(best_fitness)
+            all_fitnesses.append(fit)
+            fitness_evals += 1
 
     # print(f'Start path: \n {start_best_path}')
     # print(f'End path: \n {best_path}')
-    return pop_fitnesses
+    return all_fitnesses

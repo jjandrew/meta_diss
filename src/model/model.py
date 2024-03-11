@@ -143,7 +143,7 @@ def create_model(n: int, alpha: int, min_dist=1, max_def=-100, max_sur=100) -> D
         max_sur - The maximum supply surplus value
 
     returns:
-        A list of the hubs
+        A dictionary of the hub names corresponding to the hub objects
     """
     # Generate the location of the hubs
     hub_locs = create_locations(n=n, alpha=alpha, min_dist=min_dist)

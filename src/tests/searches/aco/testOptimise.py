@@ -14,10 +14,10 @@ class TestACOClass(unittest.TestCase):
             models.append(create_model(n=n, alpha=2))
         orders = []
 
-        for m in range(10, 21, 10):
-            for e in np.arange(0.01, 0.22, 0.02):
-                print(m, e)
-                for alpha in np.arange(1, 2.1, 1):
+        for m in range(10, 11, 10):
+            for e in np.arange(0.01, 0.11, 0.01):
+                print(e)
+                for alpha in np.arange(1, 1.1, 1):
                     for beta in np.arange(1, 2.1, 1):
                         combined_perc_dif = 0
                         for model in models:
@@ -27,7 +27,7 @@ class TestACOClass(unittest.TestCase):
                                 p = create_pher_matrix(
                                     model=model, dist_matrix=d, p_min=1, p_max=1)
                                 vals = AS(model=model, m=m, e=e, Q=1/n*m,
-                                          max_journey_size=20, n=3000//m, d=d, p=p, h=h, alpha=alpha, beta=beta)
+                                          max_journey_size=20, n=10000, d=d, p=p, h=h, alpha=alpha, beta=beta)
                                 start = vals[0]
                                 end = vals[-1]
 

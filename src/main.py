@@ -16,7 +16,7 @@ def show_best(vals):
 
 
 if __name__ == "__main__":
-    n = 30
+    n = 100
     model = create_model(n=n, alpha=2)
 
     d = create_dist_matrix(model=model)
@@ -24,15 +24,16 @@ if __name__ == "__main__":
     h = create_heur_matrix(dist_matrix=d)
 
     # vals = sa(start_temp=200, cool_r=0.95,
-    #           max_journey_size=20, model=model, n=10000)
-    m = 20
-    vals = AS(model=model, m=m, e=0.02, Q=1/m*n, d=d,
-              p=p, h=h, n=500, max_journey_size=20, alpha=1, beta=2)
+    #           max_journey_size=20, model=model, n=20000)
+
+    # m = 20
+    # vals = AS(model=model, m=m, e=0.02, Q=1/m*n, d=d,
+    #           p=p, h=h, n=10000, max_journey_size=20, alpha=1, beta=2)
+
+    vals = ga(mutation_rate=0.25, pop_size=40, t_size=10, n=20000,
+              model=model, max_journey_size=20, crossover_rate=0.15)
+
     show_best(vals)
-
-    # vals = ga(mutation_rate=0.25, pop_size=40, t_size=10, n=500,
-    #           model=model, max_journey_size=20, crossover_rate=0.15)
-
     plot_convergence(vals)
 
-    plot_network(model=model)
+    # plot_network(model=model)
