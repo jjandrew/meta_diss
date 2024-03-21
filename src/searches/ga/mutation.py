@@ -4,13 +4,13 @@ Mutation functions for the genetic algorithm
 from typing import List, Tuple
 import random
 from searches.ga.population import encode_solution, decode_solution
-from searches.sa.neighbourhood import gen_neighbour, compress_neighbour
+from searches.sa.neighbourhood import compress_neighbour
 import copy
 
 
 def swap(parent: List[Tuple[int, int, int]], mutation_rate: float, max_journey_size: int) -> List[Tuple[int, int, int]]:
     """
-    Swaps two random deficit hubs with a probability of mutation_rate
+    Swaps two random deficit depots with a probability of mutation_rate
 
     params
         parent - The chromosome
