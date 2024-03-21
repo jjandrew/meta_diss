@@ -15,18 +15,18 @@ class TestGAEvaluationClass(unittest.TestCase):
         """
         Tests a GA population can be ranked from highest to lowest fitness
         """
-        # Create a model of 4 hubs
-        hub_0 = Depot(name=0, s=-9, long=0, lat=0)
-        hub_1 = Depot(name=1, s=3, long=0, lat=1)  # 1 away from 1
-        hub_2 = Depot(name=2, s=3, long=0, lat=2)  # 2 away from 1
-        hub_3 = Depot(name=3, s=3, long=0, lat=3)  # 3 away from 1
+        # Create a model of 4 depots
+        dep_0 = Depot(name=0, s=-9, long=0, lat=0)
+        dep_1 = Depot(name=1, s=3, long=0, lat=1)  # 1 away from 1
+        dep_2 = Depot(name=2, s=3, long=0, lat=2)  # 2 away from 1
+        dep_3 = Depot(name=3, s=3, long=0, lat=3)  # 3 away from 1
 
-        # Connect the hubs
-        hub_0.add_connection(hub_1)
-        hub_0.add_connection(hub_2)
-        hub_0.add_connection(hub_3)
+        # Connect the depots
+        dep_0.add_connection(dep_1)
+        dep_0.add_connection(dep_2)
+        dep_0.add_connection(dep_3)
 
-        model = {0: hub_0, 1: hub_1, 2: hub_2, 3: hub_3}
+        model = {0: dep_0, 1: dep_1, 2: dep_2, 3: dep_3}
 
         # Create a population of 3 solutions, out of order
         pop = [
