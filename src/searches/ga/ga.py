@@ -1,62 +1,64 @@
 """
 Main body of the genetic algorithm
 """
-from model.hub import Hub
-from typing import Dict, List
-from searches.ga.population import gen_pop
-from searches.ga.selection import tournament
-from searches.ga.crossover import aware_crossover
-from searches.ga.mutation import swap
-from searches.ga.fixing.fixing import fix
 import random
 import copy
 from math import inf
+from typing import Dict, List, Tuple
+from model.depot import Depot
+from searches.ga.population import gen_pop, decode_solution
+from searches.ga.selection import tournament
+from searches.ga.crossover import aware_crossover
+from searches.ga.mutation import swap
 from utils import fitness
-from searches.ga.population import decode_solution
 
 
-def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int, Hub], max_journey_size: int, crossover_rate: float) -> List[Dict[str, int]]:
+def ga(model: Dict[int, Depot], mutation_rate: float, crossover_rate: float,
+       pop_size: int, t_size: int, n: int, max_journey_size: int) -> Tuple[List[int],
+                                                                           List[Dict[str, int]]]:
     """
     The main body of the GA algorithm
 
     params:
+        model - The model the algorithm is to be performed on
         mutation_rate - The chance of a mutation occurring
+        crossover_rate - The chance that a crossover occurs
         pop_size - The size of the population
         t_size - The size of the tournament
         n - The termination criterion for how many fitness evals before completion
-        model - The model the algorithm is to be performed on
         max_journey_size - The maximum journey size for the problem
-        crossover_rate - The chance that a crossover occurs
 
     returns
-        The best path as a list of Dictionaries of {from, to, s}
+        A tuple of fitnesses and the best path as a list of Dictionaries of {from, to, s}
     """
     # Generate a population of pop_size feasible solutions
     pop = gen_pop(pop_size=pop_size,  model=model,
                   max_journey_size=max_journey_size)
 
     # Store the start best_path to check convergence
-    start_best_path = []
-    start_best_fitness = inf
+    best_path = []
+    best_fitness = inf
 
+    # Store the value of each fitness evaluation
     all_fitnesses = []
 
     # Keep track of the number of fitness evals
     fitness_evals = 0
 
+    # For each of the original population
     for path in pop:
+        # Calculate its fitness and increment number of fitness evaluations
         fit = fitness(path=decode_solution(path=path), model=model)
         fitness_evals += 1
-        if fit < start_best_fitness:
-            start_best_path = path
-            start_best_fitness = fit
-
-    all_fitnesses.append(start_best_fitness)
+        # Store the result of the fitness evaluations
+        all_fitnesses.append(fit)
+        # If the fitness is the best so far then store it
+        if fit < best_fitness:
+            best_path = decode_solution(path=path)
+            best_fitness = fit
 
     # While the number of fitness evals is lower than terminating criterion
     while fitness_evals < n:
-        # +1 iteration as new population generated
-
         # Store the new population
         new_pop = []
 
@@ -68,7 +70,8 @@ def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int
 
             # Perform crossover
             child_1, child_2 = aware_crossover(
-                parent_1=copy.deepcopy(parent_1), parent_2=copy.deepcopy(parent_2), model=model, max_journey_size=max_journey_size, crossover_rate=crossover_rate)
+                parent_1=copy.deepcopy(parent_1), parent_2=copy.deepcopy(parent_2),
+                model=model, max_journey_size=max_journey_size, crossover_rate=crossover_rate)
 
             # Perform mutation
             child_1 = swap(parent=child_1, mutation_rate=mutation_rate,
@@ -76,27 +79,33 @@ def ga(mutation_rate: float, pop_size: int, t_size: int, n: int, model: Dict[int
             child_2 = swap(parent=child_2, mutation_rate=mutation_rate,
                            max_journey_size=max_journey_size)
 
+            # Add children to the new population
             new_pop.append(child_1)
             new_pop.append(child_2)
 
-        # If there is an odd number in population and new population is too large
+        # If there is an odd number in population and therefore the new population is too large
         if len(new_pop) > pop_size:
             # Remove a member from the new population at random
             i = random.randint(0, len(new_pop)-1)
             del new_pop[i]
 
-        # Add the new population to the old one
+        # Assign the new population to the old one
         pop = new_pop
 
         # Calculate the fitness of individuals in the population
         for path in pop:
-            # Check number of fitness evals
+            # Check number of fitness evals isnt broken
             if fitness_evals == n:
                 break
+            # Calculate the fitness and increment fitness evaluations
             fit = fitness(path=decode_solution(path=path), model=model)
-            all_fitnesses.append(fit)
             fitness_evals += 1
+            # Store result of evaluation
+            all_fitnesses.append(fit)
 
-    # print(f'Start path: \n {start_best_path}')
-    # print(f'End path: \n {best_path}')
-    return all_fitnesses
+            # Check if individual is fitter
+            if fit < best_fitness:
+                best_fitness = fit
+                best_path = decode_solution(path=path)
+
+    return all_fitnesses, best_path
