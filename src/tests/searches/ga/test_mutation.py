@@ -1,9 +1,9 @@
 """
 Unit tests for the mutation methods in the GA algorithm
 """
-from searches.ga.mutation import swap
 import unittest
 import copy
+from searches.ga.mutation import swap
 
 
 class TestGAMuationClass(unittest.TestCase):
