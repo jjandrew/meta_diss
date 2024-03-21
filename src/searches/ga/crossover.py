@@ -2,9 +2,9 @@
 Performs the crossover method for a GA
 """
 from typing import List, Tuple, Dict
-from model.depot import Depot
 import random
 import copy
+from model.depot import Depot
 from searches.random import random_search
 from searches.ga.population import encode_solution, decode_solution
 from searches.sa.neighbourhood import compress_neighbour

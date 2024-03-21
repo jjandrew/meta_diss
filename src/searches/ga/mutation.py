@@ -3,9 +3,9 @@ Mutation functions for the genetic algorithm
 """
 from typing import List, Tuple
 import random
+import copy
 from searches.ga.population import encode_solution, decode_solution
 from searches.sa.neighbourhood import compress_neighbour
-import copy
 
 
 def swap(parent: List[Tuple[int, int, int]], mutation_rate: float, max_journey_size: int) -> List[Tuple[int, int, int]]:
