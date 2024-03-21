@@ -2,13 +2,13 @@
 Unit tests for the GA path fixing algorithm
 """
 import unittest
-from model.hub import Hub
+from model.depot import Depot
 from searches.ga.fixing.fixing import fix
 from searches.ga.fixing.fixing_utils import get_sur_and_def_hubs, get_sur_and_def_journeys
 from searches.ga.crossover import uniform
 from searches.ga.population import encode_solution, decode_solution
 from searches.random import random_search
-from model.model import create_model
+from model.tnrp_model import create_model
 import copy
 from utils import apply_path
 
@@ -21,9 +21,9 @@ class TestGAPathFixingClass(unittest.TestCase):
 
     def setUp(self):
         # Create 3 hubs
-        hub0 = Hub(name=0, s=-5, long=0, lat=0)
-        hub1 = Hub(name=1, s=-5, long=0, lat=0)
-        hub2 = Hub(name=2, s=10, long=0, lat=0)
+        hub0 = Depot(name=0, s=-5, long=0, lat=0)
+        hub1 = Depot(name=1, s=-5, long=0, lat=0)
+        hub2 = Depot(name=2, s=10, long=0, lat=0)
 
         # Place in an array
         self.model = {0: hub0, 1: hub1, 2: hub2}
@@ -53,7 +53,7 @@ class TestGAPathFixingClass(unittest.TestCase):
         Tests that the function to split surplus and deficit hubs works for hubs in equilibrium
         """
         # Move 5 s from a surplus to a deficit hub to resolve hub 0
-        Hub.move_s(start=self.model[2], end=self.model[0], s=5)
+        Depot.move_s(start=self.model[2], end=self.model[0], s=5)
 
         # Create a dictionary of surplus and deficit hubs
         surplus, deficit = get_sur_and_def_hubs(model=self.model)
@@ -103,7 +103,7 @@ class TestGAPathFixingClass(unittest.TestCase):
     def test_my_test(self):
         for _ in range(10000):
             hubs = [
-                Hub(name=i, s=s, long=long, lat=lat)
+                Depot(name=i, s=s, long=long, lat=lat)
                 for i, (long, lat, s) in enumerate([
                     (13, 0, 25),
                     (5, 8, -98),

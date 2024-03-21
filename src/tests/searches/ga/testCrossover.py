@@ -3,7 +3,7 @@ Unit tests for the crossover method of the genetic algorithm
 """
 import unittest
 from searches.ga.crossover import aware_crossover
-from model.hub import Hub
+from model.depot import Depot
 from searches.ga.population import encode_solution, decode_solution
 from utils import is_complete
 
@@ -17,12 +17,12 @@ class TestUniformCrossover(unittest.TestCase):
         """
         Tests the crossover method returns two children identical to the parents
         """
-        hub_0 = Hub(name=0, s=28, long=0, lat=0)
-        hub_1 = Hub(name=1, s=-4, long=0, lat=0)
-        hub_2 = Hub(name=2, s=-84, long=0, lat=0)
-        hub_3 = Hub(name=3, s=65, long=0, lat=0)
-        hub_4 = Hub(name=4, s=-16, long=0, lat=0)
-        hub_5 = Hub(name=5, s=11, long=0, lat=0)
+        hub_0 = Depot(name=0, s=28, long=0, lat=0)
+        hub_1 = Depot(name=1, s=-4, long=0, lat=0)
+        hub_2 = Depot(name=2, s=-84, long=0, lat=0)
+        hub_3 = Depot(name=3, s=65, long=0, lat=0)
+        hub_4 = Depot(name=4, s=-16, long=0, lat=0)
+        hub_5 = Depot(name=5, s=11, long=0, lat=0)
 
         model = {0: hub_0, 1: hub_1, 2: hub_2, 3: hub_3, 4: hub_4, 5: hub_5}
 

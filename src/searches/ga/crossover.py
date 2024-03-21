@@ -2,7 +2,7 @@
 Performs the crossover method for a GA
 """
 from typing import List, Tuple, Dict
-from model.hub import Hub
+from model.depot import Depot
 import random
 import copy
 from searches.random import random_search
@@ -10,7 +10,7 @@ from searches.ga.population import encode_solution, decode_solution
 from searches.sa.neighbourhood import compress_neighbour
 
 
-def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[int, int, int]], model: Dict[int, Hub], max_journey_size: int, crossover_rate: float) -> Tuple[List[Tuple[int, int, int]], List[Tuple[int, int, int]]]:
+def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[int, int, int]], model: Dict[int, Depot], max_journey_size: int, crossover_rate: float) -> Tuple[List[Tuple[int, int, int]], List[Tuple[int, int, int]]]:
     """
     Performs a crossover which tries to remain aware of solution to produce two valid children
     """
@@ -55,8 +55,8 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
             # Apply the journey
             child_1.append(parent_1_gene)
             # Move within the model
-            Hub.move_s(start=child_1_model[par_1_sur],
-                       end=child_1_model[par_1_def], s=par_1_s)
+            Depot.move_s(start=child_1_model[par_1_sur],
+                         end=child_1_model[par_1_def], s=par_1_s)
 
         else:  # A hub is going to be resolved
             # Add as much as possible to resolve a hub
@@ -69,8 +69,8 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
                 # Add to the child
                 child_1.append(journey)
                 # Move within the model
-                Hub.move_s(start=child_1_model[par_1_sur],
-                           end=child_1_model[par_1_def], s=min_s)
+                Depot.move_s(start=child_1_model[par_1_sur],
+                             end=child_1_model[par_1_def], s=min_s)
 
         # Try and add parent 2 gene to child 2
         par_2_sur = parent_2_gene[0]
@@ -81,8 +81,8 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
             # Apply the journey
             child_2.append(parent_2_gene)
             # Move within the model
-            Hub.move_s(start=child_2_model[par_2_sur],
-                       end=child_2_model[par_2_def], s=par_2_s)
+            Depot.move_s(start=child_2_model[par_2_sur],
+                         end=child_2_model[par_2_def], s=par_2_s)
 
         else:  # A hub is going to be resolved
             # Add as much as possible to resolve a hub
@@ -95,8 +95,8 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
                 # Add to the child
                 child_2.append(journey)
                 # Move within the model
-                Hub.move_s(start=child_2_model[par_2_sur],
-                           end=child_2_model[par_2_def], s=min_s)
+                Depot.move_s(start=child_2_model[par_2_sur],
+                             end=child_2_model[par_2_def], s=min_s)
 
     # Now want to add the final journeys to resolve a model using a random search
     final_child_1_paths = encode_solution(random_search(

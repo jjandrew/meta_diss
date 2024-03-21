@@ -1,9 +1,43 @@
 import matplotlib.pyplot as plt
-from model.hub import Hub
-from typing import Dict
+from model.depot import Depot
+from typing import Dict, List
 
 
-def plot_network(model: Dict[int, Hub]):
+def write_model(model: Dict[int, Depot], filename="values"):
+    with open(f'./models/{filename}.txt', 'w') as f:
+        for hub in model.values():
+            f.write(str(hub) + '\n')
+
+
+def read_model(filename: str) -> Dict[int, Depot]:
+    model: Dict[int, Depot] = {}
+    with open(f'./models/{filename}.txt', 'r') as f:
+        for line in f:
+            parts = line.split(' ')
+            id = int(parts[1].strip(','))
+            coords = parts[3]
+            x, y, _ = coords.split(',')
+            x = int(x.strip('('))
+            y = int(y.strip(')'))
+            s = int(parts[-1].strip())
+            hub = Depot(name=id, s=s, long=x, lat=y)
+            model[id] = hub
+
+    # Connect all hubs
+    for i in range(len(model)):
+        for j in range(i, len(model)):
+            model[i].add_connection(model[j])
+
+    return model
+
+
+def show_best(vals):
+    for i in range(1, len(vals)):
+        if vals[i] > vals[i-1]:
+            vals[i] = vals[i-1]
+
+
+def plot_network(model: Dict[int, Depot]):
     """
     Plots the network using matplot lib.
     Displays the supply values of each hub along with its name
@@ -56,8 +90,30 @@ def plot_convergence(fitness_vals):
 
     # Plot
     plt.plot(x_vals, y_vals, marker='o', linestyle='-')
-    plt.title('Fitness vs Population Number')
-    plt.xlabel('Population Number')
+    plt.title('SA Fitness vs Number of Fitness Iterations')
+    plt.xlabel('Fitness Iteration')
     plt.ylabel('Fitness')
     plt.grid(True)
+    plt.show()
+
+
+def plot_comparison(aco: List[int], ga: List[int], sa: List[int], rs: List[int], n: int):
+    x = range(len(ga))
+
+    # Plotting
+    plt.plot(x, aco, label='ACO')
+    plt.plot(x, ga, label='GA')
+    plt.plot(x, sa, label='SA')
+    plt.plot(x, rs, label='Random Search')
+
+    # Adding labels and title
+    plt.xlabel('Fitness Evaluations')
+    plt.ylabel('Best Fitness')
+    plt.title(
+        f'Comparison of Algorithm Best Fitness on a {n}-depot TNRP')
+
+    # Adding a legend
+    plt.legend()
+
+    # Displaying the plot
     plt.show()

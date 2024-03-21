@@ -3,7 +3,7 @@ Tests the SA algorithm
 """
 import unittest
 from searches.sa.sa import sa, accept
-from model.model import create_model
+from model.tnrp_model import create_model
 
 
 class TestSAClass(unittest.TestCase):

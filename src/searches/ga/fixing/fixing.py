@@ -2,14 +2,14 @@
 Performs a fixing algorithm on a solution to make sure it is valid
 """
 from typing import List, Dict, Set, Tuple
-from model.hub import Hub
+from model.depot import Depot
 from utils import apply_path, is_resolved
 from searches.ga.population import decode_solution
 from searches.ga.fixing.fixing_utils import get_sur_and_def_hubs, get_sur_and_def_journeys
 from searches.ga.fixing.fix import macro_fixing, micro_fixing
 
 
-def fix(path: List[Tuple[int, int, int]], model: Dict[int, Hub], max_journey_size=20):
+def fix(path: List[Tuple[int, int, int]], model: Dict[int, Depot], max_journey_size=20):
     """
     Fixes the given path by making any necessary adjustments in order to 
     ensure that all deficits are resolved.

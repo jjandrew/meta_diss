@@ -4,8 +4,8 @@ Tests for the random search method
 
 import unittest
 from searches.random import random_search
-from model.hub import Hub
-from model.model import create_model
+from model.depot import Depot
+from model.tnrp_model import create_model
 
 
 class TestRandomSolutionClass(unittest.TestCase):

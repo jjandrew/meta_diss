@@ -1,5 +1,5 @@
 import unittest
-from model.model import create_model
+from model.tnrp_model import create_model
 import numpy as np
 from searches.sa.sa import sa
 import copy

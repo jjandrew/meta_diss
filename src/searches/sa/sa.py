@@ -3,7 +3,7 @@ Performs the simulated annealing algorithm
 """
 from searches.random import random_search
 from typing import Dict, List
-from model.hub import Hub
+from model.depot import Depot
 from utils import fitness
 from searches.sa.neighbourhood import gen_neighbour, compress_neighbour
 import random
@@ -25,13 +25,17 @@ def accept(delta_e: int, t: float):
         # Generate a random float between 0 and 1
         r = random.random()
         # See if it's less than e^(-delta_e/t) and if so accept it
+        # print()
+        # print(delta_e)
+        # print(t)
+        # print(math.exp(-delta_e/(t)))
         if r < math.exp(-delta_e/(t)):
             return True
         else:
             return False
 
 
-def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dict[int, Hub]) -> List[Dict[str, int]]:
+def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dict[int, Depot]) -> List[Dict[str, int]]:
     """
     Performs the Simulated annealing algorithm
 
@@ -78,7 +82,7 @@ def sa(start_temp: int, n: int, cool_r: float, max_journey_size: int, model: Dic
     best_e = cur_e
 
     # For n iterations
-    for _ in range(n):
+    for _ in range(n-1):
         # Generate a random neighbour
         neighbour = gen_neighbour(path=cur_solution)
 

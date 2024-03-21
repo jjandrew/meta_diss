@@ -3,9 +3,9 @@ Tests for the repeated functions throughout the project
 """
 
 import unittest
-from model.hub import Hub
+from model.depot import Depot
 from utils import fitness, get_closest_hub, reduce_model, improve_solution, is_resolved
-from model.model import create_model
+from model.tnrp_model import create_model
 from searches.random import random_search
 import copy
 
@@ -19,9 +19,9 @@ class TestUtilsClass(unittest.TestCase):
     def setUp(self):
         """Setup for the tests (to create the model)"""
         # Create 3 hubs
-        hub0 = Hub(name=0, s=-5, long=0, lat=0)
-        hub1 = Hub(name=1, s=0, long=1, lat=2)
-        hub2 = Hub(name=2, s=10, long=2, lat=0)
+        hub0 = Depot(name=0, s=-5, long=0, lat=0)
+        hub1 = Depot(name=1, s=0, long=1, lat=2)
+        hub2 = Depot(name=2, s=10, long=2, lat=0)
 
         # Place in an array
         self.model = {0: hub0, 1: hub1, 2: hub2}
@@ -105,9 +105,9 @@ class TestUtilsClass(unittest.TestCase):
 
         # Now test a correct one is complete
         # Create 3 hubs that are resolved
-        hub0 = Hub(name=0, s=0, long=0, lat=0)
-        hub1 = Hub(name=1, s=0, long=1, lat=2)
-        hub2 = Hub(name=2, s=0, long=2, lat=0)
+        hub0 = Depot(name=0, s=0, long=0, lat=0)
+        hub1 = Depot(name=1, s=0, long=1, lat=2)
+        hub2 = Depot(name=2, s=0, long=2, lat=0)
         # Place in an array
         model = {0: hub0, 1: hub1, 2: hub2}
         # check it is resolved

@@ -3,7 +3,7 @@ Encodes a solution into a chromosome
 """
 from typing import Dict, List, Tuple
 import copy
-from model.hub import Hub
+from model.depot import Depot
 from searches.random import random_search
 
 
@@ -44,7 +44,7 @@ def decode_solution(path: List[Tuple[int, int, int]]) -> List[Dict[str, int]]:
     return decoded
 
 
-def gen_pop(pop_size: int, model: Dict[int, Hub], max_journey_size: int) -> List[List[Tuple[int, int, int]]]:
+def gen_pop(pop_size: int, model: Dict[int, Depot], max_journey_size: int) -> List[List[Tuple[int, int, int]]]:
     """
     Generates an initial population for the genetic algorithm as a list of chromosomes
 

@@ -2,12 +2,12 @@
 General utilities for use throughout the project
 """
 from typing import Dict, List
-from model.hub import Hub
+from model.depot import Depot
 from math import inf
 import copy
 
 
-def fitness(path: List[Dict[str, int]], model: Dict[int, Hub]) -> int:
+def fitness(path: List[Dict[str, int]], model: Dict[int, Depot]) -> int:
     """
     Function for calculating fitness (distance) of a solution
 
@@ -25,7 +25,7 @@ def fitness(path: List[Dict[str, int]], model: Dict[int, Hub]) -> int:
     # For each of the journeys
     for j in path:
         # Assign hub1 to the relative hubs in the model
-        hub1: Hub = model[j['from']]
+        hub1: Depot = model[j['from']]
 
         # Get the distance to the 'to' hub in the journey
         dist = hub1.get_connections()[j['to']]
@@ -36,7 +36,7 @@ def fitness(path: List[Dict[str, int]], model: Dict[int, Hub]) -> int:
     return total_dist
 
 
-def is_resolved(model: Dict[int, Hub]) -> bool:
+def is_resolved(model: Dict[int, Depot]) -> bool:
     """
     Returns whether or not a model is in equilibrium
     params:
@@ -53,7 +53,7 @@ def is_resolved(model: Dict[int, Hub]) -> bool:
     return True
 
 
-def get_closest_hub(hub: Hub, model: Dict[int, Hub]) -> Hub:
+def get_closest_hub(hub: Depot, model: Dict[int, Depot]) -> Depot:
     """
     Get the closest connection to a hub
 
@@ -80,7 +80,7 @@ def get_closest_hub(hub: Hub, model: Dict[int, Hub]) -> Hub:
     return closest_hub
 
 
-def reduce_model(model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
+def reduce_model(model: Dict[int, Depot], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Reduces the model by adding journeys that must be in a best solution
 
@@ -117,7 +117,7 @@ def reduce_model(model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str,
                     # Quantity to move is minimum of max_journey_size and remaining deficits / surplus of two hubs
                     quantity = min(max_journey_size, hub.get_s(),
                                    abs(closest_hub.get_s()))
-                    Hub.move_s(start=hub, end=closest_hub, s=quantity)
+                    Depot.move_s(start=hub, end=closest_hub, s=quantity)
                     # Add journey to journeys
                     journeys.append(
                         {'from': hub.get_name(), 'to': closest_hub.get_name(), 's': quantity})
@@ -125,7 +125,7 @@ def reduce_model(model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str,
                     # Quantity to move is minimum of max_journey_size and remaining deficits / surplus of two hubs
                     quantity = min(max_journey_size, abs(
                         hub.get_s()), closest_hub.get_s())
-                    Hub.move_s(start=closest_hub, end=hub, s=quantity)
+                    Depot.move_s(start=closest_hub, end=hub, s=quantity)
                     # Add journey to journeys
                     journeys.append(
                         {'from': closest_hub.get_name(), 'to': hub.get_name(), 's': quantity})
@@ -133,7 +133,7 @@ def reduce_model(model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str,
     return journeys
 
 
-def improve_solution(solution: List[Dict[str, int]], model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
+def improve_solution(solution: List[Dict[str, int]], model: Dict[int, Depot], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Improves the final solution in the scenario that the fitness can be improved by a journey adding more s to a surplus hub
 
@@ -221,7 +221,7 @@ def improve_solution(solution: List[Dict[str, int]], model: Dict[int, Hub], max_
                 continue
 
             # Look for the nearest hub to A that is in ordered journeys and is closer to Z (B)
-            final_closest: Hub = None
+            final_closest: Depot = None
             dist_from_A = inf
             # Get the hub objects for A and Z
             A_hub = model[journey['from']]
@@ -281,7 +281,7 @@ def improve_solution(solution: List[Dict[str, int]], model: Dict[int, Hub], max_
     return final_solution
 
 
-def apply_path(path: List[Dict[str, int]], model: Dict[int, Hub]):
+def apply_path(path: List[Dict[str, int]], model: Dict[int, Depot]):
     """
     Applies a list of journeys to a model to get a new model state
 
@@ -296,10 +296,10 @@ def apply_path(path: List[Dict[str, int]], model: Dict[int, Hub]):
         to_hub = model[journey['to']]
 
         # Move the correct quantitiy between the hubs
-        Hub.move_s(start=from_hub, end=to_hub, s=journey['s'])
+        Depot.move_s(start=from_hub, end=to_hub, s=journey['s'])
 
 
-def is_complete(path: List[Dict[str, int]], original_model_state: Dict[int, Hub]) -> bool:
+def is_complete(path: List[Dict[str, int]], original_model_state: Dict[int, Depot]) -> bool:
     """
     Checks whether a path leads to a model being in equilibrium
 

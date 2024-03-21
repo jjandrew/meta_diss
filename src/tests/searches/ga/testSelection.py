@@ -2,7 +2,7 @@
 Tests the evaluation method for the genetic algorithm
 """
 import unittest
-from model.hub import Hub
+from model.depot import Depot
 from searches.ga.selection import tournament
 
 
@@ -16,10 +16,10 @@ class TestGAEvaluationClass(unittest.TestCase):
         Tests a GA population can be ranked from highest to lowest fitness
         """
         # Create a model of 4 hubs
-        hub_0 = Hub(name=0, s=-9, long=0, lat=0)
-        hub_1 = Hub(name=1, s=3, long=0, lat=1)  # 1 away from 1
-        hub_2 = Hub(name=2, s=3, long=0, lat=2)  # 2 away from 1
-        hub_3 = Hub(name=3, s=3, long=0, lat=3)  # 3 away from 1
+        hub_0 = Depot(name=0, s=-9, long=0, lat=0)
+        hub_1 = Depot(name=1, s=3, long=0, lat=1)  # 1 away from 1
+        hub_2 = Depot(name=2, s=3, long=0, lat=2)  # 2 away from 1
+        hub_3 = Depot(name=3, s=3, long=0, lat=3)  # 3 away from 1
 
         # Connect the hubs
         hub_0.add_connection(hub_1)

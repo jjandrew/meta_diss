@@ -2,10 +2,10 @@
 Funcgtions for the fixing algorithm to make it cleaner
 """
 from typing import Set, Tuple, Dict, List
-from model.hub import Hub
+from model.depot import Depot
 
 
-def get_sur_and_def_hubs(model: Dict[int, Hub]) -> Tuple[Set[int], Set[int]]:
+def get_sur_and_def_hubs(model: Dict[int, Depot]) -> Tuple[Set[int], Set[int]]:
     """
     Returns the names of the surplus and deificit hubs in a model as two sets
 

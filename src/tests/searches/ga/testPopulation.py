@@ -3,7 +3,7 @@ Test case for the GA population creation
 """
 import unittest
 from searches.ga.population import encode_solution, gen_pop, decode_solution
-from model.model import create_model
+from model.tnrp_model import create_model
 from typing import List
 
 

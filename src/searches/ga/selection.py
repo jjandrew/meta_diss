@@ -6,10 +6,10 @@ import random
 from math import inf
 from searches.ga.population import encode_solution, decode_solution
 from utils import fitness
-from model.hub import Hub
+from model.depot import Depot
 
 
-def tournament(pop: List[List[Tuple[int, int, int]]], t_size: int, model: Dict[int, Hub]) -> List[Tuple[int, int, int]]:
+def tournament(pop: List[List[Tuple[int, int, int]]], t_size: int, model: Dict[int, Depot]) -> List[Tuple[int, int, int]]:
     """
     Performs tournament selection on a population
 

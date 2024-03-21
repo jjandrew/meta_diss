@@ -2,13 +2,13 @@
 Creates a random solution to the model passed in
 """
 from typing import List, Dict
-from model.hub import Hub
+from model.depot import Depot
 from utils import is_resolved
 import random
 import copy
 
 
-def perform_journey(sur_hub: Hub, def_hub: Hub, max_journey_size: int) -> (Dict[str, int], List[int]):
+def perform_journey(sur_hub: Depot, def_hub: Depot, max_journey_size: int) -> (Dict[str, int], List[int]):
     """
     Performs a journey of maximum quanitity from surplus to deficit hub
 
@@ -24,7 +24,7 @@ def perform_journey(sur_hub: Hub, def_hub: Hub, max_journey_size: int) -> (Dict[
     move_size = min(sur_hub.get_s(), abs(def_hub.get_s()), max_journey_size)
 
     # Perform the movement
-    Hub.move_s(start=sur_hub, end=def_hub, s=move_size)
+    Depot.move_s(start=sur_hub, end=def_hub, s=move_size)
 
     # Put the journey in a dictionary
     journey = {'from': sur_hub.get_name(), 'to': def_hub.get_name(),
@@ -41,7 +41,7 @@ def perform_journey(sur_hub: Hub, def_hub: Hub, max_journey_size: int) -> (Dict[
     return journey, equilibrium_hubs
 
 
-def random_search(model: Dict[int, Hub], max_journey_size: int) -> List[Dict[str, int]]:
+def random_search(model: Dict[int, Depot], max_journey_size: int) -> List[Dict[str, int]]:
     """
     Performs a random search on the model that is passed in
 

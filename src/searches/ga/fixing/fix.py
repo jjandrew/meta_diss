@@ -2,12 +2,12 @@
 The fixing functions for swapping surplus hubs until a valid solution is found
 """
 import random
-from model.hub import Hub
+from model.depot import Depot
 from typing import List, Tuple, Dict
 
 
 def macro_fixing(over_res_hubs: List[int], under_res_hubs: List[int], path: List[Tuple[int, int, int]],
-                 sur_js: Dict[int, List[int]], model: Dict[int, Hub]):
+                 sur_js: Dict[int, List[int]], model: Dict[int, Depot]):
     """
     Swaps surplus hub names in a path and may split journeys into smaller chunks if beneficial
 
@@ -39,8 +39,8 @@ def macro_fixing(over_res_hubs: List[int], under_res_hubs: List[int], path: List
 
                 if journey_s <= under_res_s and journey_s <= abs(over_res_s):
                     # Move the s quantity of journey to the under resolved hub
-                    Hub.move_s(start=model[under_res_hub_name],
-                               end=model[over_res_hub_name], s=journey_s)
+                    Depot.move_s(start=model[under_res_hub_name],
+                                 end=model[over_res_hub_name], s=journey_s)
 
                     # Alter the journey surplus hub name
                     path[journey_idx] = (
@@ -62,8 +62,8 @@ def macro_fixing(over_res_hubs: List[int], under_res_hubs: List[int], path: List
                         to_move = abs(over_res_s)
 
                     # Move the supply
-                    Hub.move_s(start=model[under_res_hub_name],
-                               end=model[over_res_hub_name], s=to_move)
+                    Depot.move_s(start=model[under_res_hub_name],
+                                 end=model[over_res_hub_name], s=to_move)
 
                     # Add journey to the path
                     path.append(
@@ -76,7 +76,7 @@ def macro_fixing(over_res_hubs: List[int], under_res_hubs: List[int], path: List
 
 
 def micro_fixing(over_res_hubs: List[int], under_res_hubs: List[int], path: List[Tuple[int, int, int]],
-                 sur_js: Dict[int, List[int]], def_js: Dict[int, List[int]], model: Dict[int, Hub], max_journey_size: int):
+                 sur_js: Dict[int, List[int]], def_js: Dict[int, List[int]], model: Dict[int, Depot], max_journey_size: int):
     """
     Swaps surplus hub names in a path and may split journeys into smaller chunks if beneficial
 
@@ -131,7 +131,7 @@ def micro_fixing(over_res_hubs: List[int], under_res_hubs: List[int], path: List
                             to_move = min(under_res_s, abs(over_res_s),
                                           max_journey_size - under_res_j_size, over_res_j_size)
                             # Move it in the model
-                            Hub.move_s(
+                            Depot.move_s(
                                 start=model[def_journey[0]], end=model[over_res_hub], s=to_move)
                             # Update the journeys in the path of the under resolved hub
                             path[def_res_hub_j] = (
