@@ -4,7 +4,7 @@ Executes the main body of the AS algorithm
 from math import inf
 from typing import List, Dict
 from model.depot import Depot
-from searches.aco.pathGeneration import generate_path
+from searches.aco.path_generation import generate_path
 from searches.aco.pheromone import update_pheromone
 from utils import fitness
 
