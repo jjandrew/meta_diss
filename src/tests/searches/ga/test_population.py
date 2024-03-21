@@ -4,7 +4,6 @@ Test case for the GA population creation
 import unittest
 from searches.ga.population import encode_solution, gen_pop, decode_solution
 from model.tnrp_model import create_model
-from typing import List
 
 
 class TestGAPopulationClass(unittest.TestCase):
@@ -50,9 +49,7 @@ class TestGAPopulationClass(unittest.TestCase):
         """
         Tests that a population for the GA is created correctly
         """
-        # TODO do I want to check that elements in the initial population are unique
-
-        # Create a 10 hub model
+        # Create a 10 depot model
         n = 10
         model = create_model(n=n, alpha=2)
 

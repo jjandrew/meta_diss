@@ -1,8 +1,8 @@
 """
 Encodes a solution into a chromosome
 """
-from typing import Dict, List, Tuple
 import copy
+from typing import Dict, List, Tuple
 from model.depot import Depot
 from searches.random import random_search
 
@@ -50,11 +50,11 @@ def gen_pop(pop_size: int, model: Dict[int, Depot], max_journey_size: int) -> Li
 
     params
         pop_size - The size of the population returned
-        model - The model the algorithm is performed on of type hub_name: Hub object
+        model - The model the algorithm is performed on of type depot_name: Depot object
         max_journey_size - The maximum size journey for the problem
 
     returns
-        List of solutions, represented as genomes of (from_hub, to_hub, s) for each journey
+        List of solutions, represented as genomes of (from_depot, to_depot, s) for each journey
     """
     pop = []
     while len(pop) < pop_size:
