@@ -83,14 +83,14 @@ def plot_network(model: Dict[int, Depot]):
     plt.show()
 
 
-def plot_convergence(fitness_vals):
+def plot_convergence(fitness_vals: List[int], algo: str):
     # Generate x values (position in list + 1) and y values (integer values)
     x_vals = [i for i in range(len(fitness_vals))]
     y_vals = fitness_vals
 
     # Plot
     plt.plot(x_vals, y_vals, marker='o', linestyle='-')
-    plt.title('SA Fitness vs Number of Fitness Iterations')
+    plt.title(f'{algo} Fitness vs Number of Fitness Iterations')
     plt.xlabel('Fitness Iteration')
     plt.ylabel('Fitness')
     plt.grid(True)
