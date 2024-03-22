@@ -9,7 +9,7 @@ from searches.aco.create_matrices import create_dist_matrix, create_heur_matrix,
 from utils import reduce_model
 import numpy as np
 import copy
-from searches.random import random_search
+from searches.random_search import random_search
 from utils import fitness
 
 

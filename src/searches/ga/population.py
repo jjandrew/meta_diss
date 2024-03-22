@@ -4,7 +4,7 @@ Encodes a solution into a chromosome
 import copy
 from typing import Dict, List, Tuple
 from model.depot import Depot
-from searches.random import random_search
+from searches.random_search import random_search
 
 
 def encode_solution(path: List[Dict[str, int]]) -> List[Tuple[int, int, int]]:

@@ -18,6 +18,7 @@ class TestASClass(unittest.TestCase):
     def test_AS(self):
         """
         Tests the AS algorithm uses the correct representation method for paths
+        And tests AS uses the correct number of fitness calculations.
         """
         model = create_model(n=50, alpha=2)
 
@@ -29,8 +30,11 @@ class TestASClass(unittest.TestCase):
         max_journey_size = 5
 
         # Perform the AS algorithm
-        _, path = AS(
+        fitnesses, path = AS(
             model=model, m=1, e=0.5, Q=10, d=d, p=p, h=h, n=100, max_journey_size=max_journey_size)
+
+        # Check 100 fitness calculations
+        self.assertEqual(100, len(fitnesses))
 
         # Check that the best path is of the correct type
         self.assertIsInstance(path, List)

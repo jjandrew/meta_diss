@@ -6,7 +6,7 @@ import unittest
 from model.depot import Depot
 from utils import fitness, get_closest_hub, reduce_model, improve_solution, is_resolved
 from model.tnrp_model import create_model
-from searches.random import random_search
+from searches.random_search import random_search
 import copy
 
 
