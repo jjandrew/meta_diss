@@ -11,7 +11,7 @@ def write_model(model: Dict[int, Depot], filename="values"):
 
 def read_model(filename: str) -> Dict[int, Depot]:
     model: Dict[int, Depot] = {}
-    with open(f'./models/{filename}.txt', 'r') as f:
+    with open(f'./modelExamples/{filename}.txt', 'r') as f:
         for line in f:
             parts = line.split(' ')
             id = int(parts[1].strip(','))
@@ -97,7 +97,7 @@ def plot_convergence(fitness_vals):
     plt.show()
 
 
-def plot_comparison(aco: List[int], ga: List[int], sa: List[int], rs: List[int], n: int):
+def plot_convergence_comparison(aco: List[int], ga: List[int], sa: List[int], rs: List[int], n: int):
     x = range(len(ga))
 
     # Plotting
@@ -111,6 +111,49 @@ def plot_comparison(aco: List[int], ga: List[int], sa: List[int], rs: List[int],
     plt.ylabel('Best Fitness')
     plt.title(
         f'Comparison of Algorithm Best Fitness on a {n}-depot TNRP')
+
+    # Adding a legend
+    plt.legend()
+
+    # Displaying the plot
+    plt.show()
+
+
+def plot_fitness_comparison(aco: List[int], ga: List[int], sa: List[int], rs: List[int], sizes: List[int]):
+    x = sizes
+
+    # Plotting
+    plt.plot(x, aco, label='ACO')
+    plt.plot(x, ga, label='GA')
+    plt.plot(x, sa, label='SA')
+    plt.plot(x, rs, label='Random Search')
+
+    # Adding labels and title
+    plt.xlabel('No. of Depots')
+    plt.ylabel('Best Fitness')
+    plt.title(
+        f'Comparison of Algorithm Best Fitness as TNRP size increases')
+
+    # Adding a legend
+    plt.legend()
+
+    # Displaying the plot
+    plt.show()
+
+
+def plot_time_comparison(aco: List[int], ga: List[int], sa: List[int], sizes: List[int]):
+    x = sizes
+
+    # Plotting
+    plt.plot(x, aco, label='ACO')
+    plt.plot(x, ga, label='GA')
+    plt.plot(x, sa, label='SA')
+
+    # Adding labels and title
+    plt.xlabel('No. of Depots')
+    plt.ylabel('Mean Computation Time (s)')
+    plt.title(
+        f'Comparison of Algorithm Computation Times as TNRP size increases')
 
     # Adding a legend
     plt.legend()
