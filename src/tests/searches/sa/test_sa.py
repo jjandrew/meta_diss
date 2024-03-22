@@ -5,6 +5,8 @@ import unittest
 from typing import List, Dict
 from searches.sa.sa import sa, accept
 from model.tnrp_model import create_model
+from utils import is_complete
+import copy
 
 
 class TestSAClass(unittest.TestCase):
@@ -53,7 +55,7 @@ class TestSAClass(unittest.TestCase):
         model = create_model(n=30, alpha=2)
 
         fitnesses, path = sa(start_temp=100, n=1000, cool_r=0.90,
-                             max_journey_size=20, model=model)
+                             max_journey_size=20, model=copy.deepcopy(model))
 
         # Check 100 fitness evaluations
         self.assertEqual(len(fitnesses), 1000)
@@ -65,3 +67,7 @@ class TestSAClass(unittest.TestCase):
             for key, value in journey.items():
                 self.assertIsInstance(key, str)
                 self.assertIsInstance(value, int)
+
+        # Check the path resolves the model
+        self.assertTrue(is_complete(original_model_state=model,
+                        path=path), "Path does not resolve the model")

@@ -5,6 +5,7 @@ import unittest
 from typing import List, Dict
 from model.tnrp_model import create_model
 from searches.ga.ga import ga
+from utils import is_complete
 
 
 class TestGAClass(unittest.TestCase):
@@ -33,3 +34,7 @@ class TestGAClass(unittest.TestCase):
             for key, value in journey.items():
                 self.assertIsInstance(key, str)
                 self.assertIsInstance(value, int)
+
+        # Check the path resolves the model
+        self.assertTrue(is_complete(original_model_state=model,
+                        path=path), "Path does not resolve the model")

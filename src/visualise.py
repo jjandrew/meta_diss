@@ -151,7 +151,7 @@ def plot_time_comparison(aco: List[int], ga: List[int], sa: List[int], sizes: Li
 
     # Adding labels and title
     plt.xlabel('No. of Depots')
-    plt.ylabel('Mean Computation Time (s)')
+    plt.ylabel('Time (s)')
     plt.title(
         f'Comparison of Algorithm Computation Times as TNRP size increases')
 
