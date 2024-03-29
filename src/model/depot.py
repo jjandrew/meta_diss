@@ -10,28 +10,28 @@ class Depot:
     The class defining the depots
     """
 
-    def __init__(self, name: int, s: int, long: int, lat: int) -> None:
+    def __init__(self, name: int, s: int, x: int, y: int) -> None:
         """
         Create the depot
 
         params
             name - number used to identify the depot
             s - the supply value that needs to be resolved
-            long - the longitudinal location of the depot
-            lat - the lateral location of the depot
+            x - the location of the depot in the x axis
+            y - the location of the depot in the y axis
         """
         # Assign the parameters as object attributes
         self.name = name
         self.s = s
-        self.long = long
-        self.lat = lat
+        self.x = x
+        self.y = y
 
         # Create an empty dictionary of connections
         self.connections = {}
 
     def __str__(self) -> str:
         """Depot to string method for debugging"""
-        return f'Depot: {self.name}, (x,y): ({self.long},{self.lat}), S: {self.s}'
+        return f'Depot: {self.name}, (x,y): ({self.x},{self.y}), S: {self.s}'
 
     def add_connection(self, dep: 'Depot') -> None:
         """
@@ -42,8 +42,8 @@ class Depot:
             dep - the other depot object to connect with
         """
         # Calculate the euclidean distance between the two depots
-        dist_between = sqrt((self.long - dep.long) **
-                            2 + (self.lat - dep.lat)**2)
+        dist_between = sqrt((self.x - dep.x) **
+                            2 + (self.y - dep.y)**2)
 
         # Add the connection to both dictionaries
         self.connections[dep.name] = dist_between
@@ -83,7 +83,7 @@ class Depot:
         Returns
             Integer representing the longitudinal location of the depot
         """
-        return self.long
+        return self.x
 
     def get_lat(self) -> int:
         """
@@ -92,7 +92,7 @@ class Depot:
         Returns
             Integer representing the latitudinal location of the depot
         """
-        return self.lat
+        return self.y
 
     def get_connections(self) -> Dict[int, int]:
         """

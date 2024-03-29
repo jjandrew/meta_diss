@@ -18,11 +18,11 @@ class TestASPathGenerationClass(unittest.TestCase):
         """
         Tests that the journey performing function works correctly
         """
-        dep_0 = Depot(name=0, s=5, long=0, lat=0)
-        dep_1 = Depot(name=1, s=-5, long=0, lat=0)
-        dep_2 = Depot(name=2, s=10, long=0, lat=0)
-        dep_3 = Depot(name=3, s=-10, long=0, lat=0)
-        dep_4 = Depot(name=4, s=3, long=0, lat=0)
+        dep_0 = Depot(name=0, s=5, x=0, y=0)
+        dep_1 = Depot(name=1, s=-5, x=0, y=0)
+        dep_2 = Depot(name=2, s=10, x=0, y=0)
+        dep_3 = Depot(name=3, s=-10, x=0, y=0)
+        dep_4 = Depot(name=4, s=3, x=0, y=0)
 
         max_j_size = 5
 
@@ -36,8 +36,8 @@ class TestASPathGenerationClass(unittest.TestCase):
         self.assertEqual(result, expected)
 
         # Reset depots
-        dep_0 = Depot(name=0, s=5, long=0, lat=0)
-        dep_1 = Depot(name=1, s=-5, long=0, lat=0)
+        dep_0 = Depot(name=0, s=5, x=0, y=0)
+        dep_1 = Depot(name=1, s=-5, x=0, y=0)
 
         # Create a move where just the deficit depot is resolved
         journey, result = perform_journey(
@@ -49,8 +49,8 @@ class TestASPathGenerationClass(unittest.TestCase):
         self.assertEqual(result, expected)
 
         # Reset depots
-        dep_1 = Depot(name=1, s=-5, long=0, lat=0)
-        dep_2 = Depot(name=2, s=10, long=0, lat=0)
+        dep_1 = Depot(name=1, s=-5, x=0, y=0)
+        dep_2 = Depot(name=2, s=10, x=0, y=0)
 
         # Create a move where just the surplus depot is resolved
         journey, result = perform_journey(
@@ -62,8 +62,8 @@ class TestASPathGenerationClass(unittest.TestCase):
         self.assertEqual(result, expected)
 
         # Reset depots
-        dep_0 = Depot(name=0, s=5, long=0, lat=0)
-        dep_3 = Depot(name=3, s=-10, long=0, lat=0)
+        dep_0 = Depot(name=0, s=5, x=0, y=0)
+        dep_3 = Depot(name=3, s=-10, x=0, y=0)
 
         # Create a move where neither depot resolved
         journey, result = perform_journey(
@@ -75,8 +75,8 @@ class TestASPathGenerationClass(unittest.TestCase):
         self.assertEqual(result, expected)
 
         # Reset depots
-        dep_2 = Depot(name=2, s=10, long=0, lat=0)
-        dep_3 = Depot(name=3, s=-10, long=0, lat=0)
+        dep_2 = Depot(name=2, s=10, x=0, y=0)
+        dep_3 = Depot(name=3, s=-10, x=0, y=0)
 
         # Create a move where j size is less than max_j_size
         journey, result = perform_journey(
@@ -91,9 +91,9 @@ class TestASPathGenerationClass(unittest.TestCase):
         Tests a valid path is generated
         """
         # Create the model
-        dep_0 = Depot(name=0, s=4, long=0, lat=0)
-        dep_1 = Depot(name=1, s=-3, long=3, lat=2)
-        dep_2 = Depot(name=2, s=-1, long=1, lat=1)
+        dep_0 = Depot(name=0, s=4, x=0, y=0)
+        dep_1 = Depot(name=1, s=-3, x=3, y=2)
+        dep_2 = Depot(name=2, s=-1, x=1, y=1)
 
         model = {0: dep_0, 1: dep_1, 2: dep_2}
 
@@ -153,9 +153,9 @@ class TestASPathGenerationClass(unittest.TestCase):
         Tests that path generation is more likely to choose edges with more pheromone
         """
         # Create the model
-        dep_0 = Depot(name=0, s=4, long=0, lat=0)
-        dep_1 = Depot(name=1, s=-3, long=3, lat=2)
-        dep_2 = Depot(name=2, s=-1, long=1, lat=1)
+        dep_0 = Depot(name=0, s=4, x=0, y=0)
+        dep_1 = Depot(name=1, s=-3, x=3, y=2)
+        dep_2 = Depot(name=2, s=-1, x=1, y=1)
 
         model = {0: dep_0, 1: dep_1, 2: dep_2}
 
@@ -194,9 +194,9 @@ class TestASPathGenerationClass(unittest.TestCase):
         Tests that path generation is more likely to choose edges with a greater heuristic
         """
         # Create the model
-        dep_0 = Depot(name=0, s=4, long=0, lat=0)
-        dep_1 = Depot(name=1, s=-3, long=3, lat=2)
-        dep_2 = Depot(name=2, s=-1, long=1, lat=1)
+        dep_0 = Depot(name=0, s=4, x=0, y=0)
+        dep_1 = Depot(name=1, s=-3, x=3, y=2)
+        dep_2 = Depot(name=2, s=-1, x=1, y=1)
 
         model = {0: dep_0, 1: dep_1, 2: dep_2}
 

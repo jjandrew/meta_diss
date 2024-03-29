@@ -16,9 +16,9 @@ class TestASMatricesClass(unittest.TestCase):
     def setUpClass(self):
         """Setup for the tests (to create the model)"""
         # Create 3 depots
-        dep0 = Depot(name=0, s=-5, long=0, lat=0)
-        dep1 = Depot(name=1, s=6, long=3, lat=4)
-        dep2 = Depot(name=2, s=10, long=5, lat=12)
+        dep0 = Depot(name=0, s=-5, x=0, y=0)
+        dep1 = Depot(name=1, s=6, x=3, y=4)
+        dep2 = Depot(name=2, s=10, x=5, y=12)
 
         # Place in an array
         self.model = {0: dep0, 1: dep1, 2: dep2}

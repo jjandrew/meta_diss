@@ -155,7 +155,7 @@ def create_model(n: int, alpha=2, max_def=-100, max_sur=100) -> Dict[int, Depot]
     for i in range(len(dep_locs)):
         # Assign the corresponding names, locations and supply values to each hub
         new_dep = Depot(name=dep_locs[i]['name'], s=s_vals[i],
-                        long=dep_locs[i]['long'], lat=dep_locs[i]['lat'])
+                        x=dep_locs[i]['long'], y=dep_locs[i]['lat'])
         # Add the depot to the dictionary
         deps[new_dep.get_name()] = new_dep
 

@@ -16,10 +16,10 @@ class TestGAEvaluationClass(unittest.TestCase):
         Tests a GA population can be ranked from highest to lowest fitness
         """
         # Create a model of 4 depots
-        dep_0 = Depot(name=0, s=-9, long=0, lat=0)
-        dep_1 = Depot(name=1, s=3, long=0, lat=1)  # 1 away from 1
-        dep_2 = Depot(name=2, s=3, long=0, lat=2)  # 2 away from 1
-        dep_3 = Depot(name=3, s=3, long=0, lat=3)  # 3 away from 1
+        dep_0 = Depot(name=0, s=-9, x=0, y=0)
+        dep_1 = Depot(name=1, s=3, x=0, y=1)  # 1 away from 1
+        dep_2 = Depot(name=2, s=3, x=0, y=2)  # 2 away from 1
+        dep_3 = Depot(name=3, s=3, x=0, y=3)  # 3 away from 1
 
         # Connect the depots
         dep_0.add_connection(dep_1)

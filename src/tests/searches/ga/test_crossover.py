@@ -17,12 +17,12 @@ class TestCrossoverClass(unittest.TestCase):
         """
         Tests the crossover method returns two children identical to the parents
         """
-        dep_0 = Depot(name=0, s=28, long=0, lat=0)
-        dep_1 = Depot(name=1, s=-4, long=0, lat=0)
-        dep_2 = Depot(name=2, s=-84, long=0, lat=0)
-        dep_3 = Depot(name=3, s=65, long=0, lat=0)
-        dep_4 = Depot(name=4, s=-16, long=0, lat=0)
-        dep_5 = Depot(name=5, s=11, long=0, lat=0)
+        dep_0 = Depot(name=0, s=28, x=0, y=0)
+        dep_1 = Depot(name=1, s=-4, x=0, y=0)
+        dep_2 = Depot(name=2, s=-84, x=0, y=0)
+        dep_3 = Depot(name=3, s=65, x=0, y=0)
+        dep_4 = Depot(name=4, s=-16, x=0, y=0)
+        dep_5 = Depot(name=5, s=11, x=0, y=0)
 
         model = {0: dep_0, 1: dep_1, 2: dep_2, 3: dep_3, 4: dep_4, 5: dep_5}
 
@@ -83,12 +83,12 @@ class TestCrossoverClass(unittest.TestCase):
         """
         Tests that the parents are returned as children when a crossover rate of 0 is used
         """
-        dep_0 = Depot(name=0, s=28, long=0, lat=0)
-        dep_1 = Depot(name=1, s=-4, long=0, lat=0)
-        dep_2 = Depot(name=2, s=-84, long=0, lat=0)
-        dep_3 = Depot(name=3, s=65, long=0, lat=0)
-        dep_4 = Depot(name=4, s=-16, long=0, lat=0)
-        dep_5 = Depot(name=5, s=11, long=0, lat=0)
+        dep_0 = Depot(name=0, s=28, x=0, y=0)
+        dep_1 = Depot(name=1, s=-4, x=0, y=0)
+        dep_2 = Depot(name=2, s=-84, x=0, y=0)
+        dep_3 = Depot(name=3, s=65, x=0, y=0)
+        dep_4 = Depot(name=4, s=-16, x=0, y=0)
+        dep_5 = Depot(name=5, s=11, x=0, y=0)
 
         model = {0: dep_0, 1: dep_1, 2: dep_2, 3: dep_3, 4: dep_4, 5: dep_5}
 

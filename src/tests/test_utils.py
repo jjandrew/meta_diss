@@ -19,9 +19,9 @@ class TestUtilsClass(unittest.TestCase):
     def setUp(self):
         """Setup for the tests (to create the model)"""
         # Create 3 depots
-        dep0 = Depot(name=0, s=-5, long=0, lat=0)
-        dep1 = Depot(name=1, s=0, long=3, lat=4)
-        dep2 = Depot(name=2, s=10, long=5, lat=12)
+        dep0 = Depot(name=0, s=-5, x=0, y=0)
+        dep1 = Depot(name=1, s=0, x=3, y=4)
+        dep2 = Depot(name=2, s=10, x=5, y=12)
 
         # Place in a dictionary
         self.model = {0: dep0, 1: dep1, 2: dep2}
@@ -54,9 +54,9 @@ class TestUtilsClass(unittest.TestCase):
 
         # Now test a correct one is complete
         # Create 3 depots that are resolved
-        dep0 = Depot(name=0, s=0, long=0, lat=0)
-        dep1 = Depot(name=1, s=0, long=1, lat=2)
-        dep2 = Depot(name=2, s=0, long=2, lat=0)
+        dep0 = Depot(name=0, s=0, x=0, y=0)
+        dep1 = Depot(name=1, s=0, x=1, y=2)
+        dep2 = Depot(name=2, s=0, x=2, y=0)
         # Place in an array
         model = {0: dep0, 1: dep1, 2: dep2}
         # check it is resolved
@@ -86,9 +86,9 @@ class TestUtilsClass(unittest.TestCase):
         Tests the is complete function which checks if a path resolves a model
         """
         # Create the model
-        dep0 = Depot(name=0, s=-6, long=0, lat=0)
-        dep1 = Depot(name=1, s=-4, long=3, lat=4)
-        dep2 = Depot(name=2, s=10, long=5, lat=12)
+        dep0 = Depot(name=0, s=-6, x=0, y=0)
+        dep1 = Depot(name=1, s=-4, x=3, y=4)
+        dep2 = Depot(name=2, s=10, x=5, y=12)
 
         model = {0: dep0, 1: dep1, 2: dep2}
 
@@ -106,9 +106,9 @@ class TestUtilsClass(unittest.TestCase):
         Tests the is complete function returns false is a path doesn't resolve a model
         """
         # Create the model
-        dep0 = Depot(name=0, s=-6, long=0, lat=0)
-        dep1 = Depot(name=1, s=-4, long=3, lat=4)
-        dep2 = Depot(name=2, s=10, long=5, lat=12)
+        dep0 = Depot(name=0, s=-6, x=0, y=0)
+        dep1 = Depot(name=1, s=-4, x=3, y=4)
+        dep2 = Depot(name=2, s=10, x=5, y=12)
 
         model = {0: dep0, 1: dep1, 2: dep2}
 

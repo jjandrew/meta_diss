@@ -48,7 +48,7 @@ def read_model(filename: str) -> Dict[int, Depot]:
             # Obtain the initial supply value of the depot
             s = int(parts[-1].strip())
             # Create the initial depot object
-            dep = Depot(name=id, s=s, long=x, lat=y)
+            dep = Depot(name=id, s=s, x=x, y=y)
             # Add depot object to the TNRP model
             model[id] = dep
 

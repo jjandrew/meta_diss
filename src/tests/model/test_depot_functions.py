@@ -13,7 +13,7 @@ class TestHubClass(unittest.TestCase):
         Tests a depot is created correctly
         Ensures depot is created with name, s value, longitude, latitude and no connections
         """
-        depot = Depot(name=0, s=50, long=10, lat=11)
+        depot = Depot(name=0, s=50, x=10, y=11)
         # Check depots name is 0
         self.assertEqual(0, depot.get_name())
         # Check s value of depot is 50
@@ -28,8 +28,8 @@ class TestHubClass(unittest.TestCase):
     def test_connection_added(self):
         """Tests connections between depots can be added and distance calculated"""
         # Create two depots - the distance between depots is a 3, 4, 5 pythagorean triple
-        dep0 = Depot(name=0, s=10, long=0, lat=0)
-        dep1 = Depot(name=1, s=-10, long=3, lat=4)
+        dep0 = Depot(name=0, s=10, x=0, y=0)
+        dep1 = Depot(name=1, s=-10, x=3, y=4)
 
         # Check distance between depots is calculated correctly and added to dictionary of both depots
         dep0.add_connection(dep=dep1)
@@ -39,8 +39,8 @@ class TestHubClass(unittest.TestCase):
     def test_movement_of_s(self):
         """Tests supply can be moved between depots to reach an equilibrium"""
         # Create two depots
-        dep0 = Depot(name=0, s=10, long=-1, lat=-1)
-        dep1 = Depot(name=1, s=-10, long=3, lat=5)
+        dep0 = Depot(name=0, s=10, x=-1, y=-1)
+        dep1 = Depot(name=1, s=-10, x=3, y=5)
 
         # Move 10 from depot 0 to depot 1
         Depot.move_s(start=dep0, end=dep1, s=10)
