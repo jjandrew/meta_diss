@@ -64,7 +64,7 @@ def apply_path(path: List[Dict[str, int]], model: Dict[int, Depot]):
         # Get the depot objects the journey is going from and to
         deficit_dep = model[journey['from']]
         surplus_dep = model[journey['to']]
-        # Move the correct quantitiy between the hubs
+        # Move the correct quantitiy between the depots
         Depot.move_s(start=deficit_dep, end=surplus_dep, s=journey['s'])
 
 

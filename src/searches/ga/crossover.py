@@ -50,7 +50,7 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
         par_1_sur = parent_1_gene[0]
         par_1_def = parent_1_gene[1]
         par_1_s = parent_1_gene[2]
-        # If the journey can be made to the model without over resolving a hub
+        # If the journey can be made to the model without over resolving a depot
         if child_1_model[par_1_sur].get_s() >= par_1_s and abs(child_1_model[par_1_def].get_s()) >= par_1_s:
             # Apply the journey
             child_1.append(parent_1_gene)
@@ -58,8 +58,8 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
             Depot.move_s(start=child_1_model[par_1_sur],
                          end=child_1_model[par_1_def], s=par_1_s)
 
-        else:  # A hub is going to be resolved
-            # Add as much as possible to resolve a hub
+        else:  # A depot is going to be resolved
+            # Add as much as possible to resolve a depot
             min_s = min(child_1_model[par_1_sur].get_s(), abs(
                 child_1_model[par_1_def].get_s()))
             # check there is a journey to add
@@ -76,7 +76,7 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
         par_2_sur = parent_2_gene[0]
         par_2_def = parent_2_gene[1]
         par_2_s = parent_2_gene[2]
-        # If the journey can be made to the model without over resolving a hub
+        # If the journey can be made to the model without over resolving a depot
         if child_2_model[par_2_sur].get_s() >= par_2_s and abs(child_2_model[par_2_def].get_s()) >= par_2_s:
             # Apply the journey
             child_2.append(parent_2_gene)
@@ -84,8 +84,8 @@ def aware_crossover(parent_1: List[Tuple[int, int, int]], parent_2: List[Tuple[i
             Depot.move_s(start=child_2_model[par_2_sur],
                          end=child_2_model[par_2_def], s=par_2_s)
 
-        else:  # A hub is going to be resolved
-            # Add as much as possible to resolve a hub
+        else:  # A depot is going to be resolved
+            # Add as much as possible to resolve a depot
             min_s = min(child_2_model[par_2_sur].get_s(), abs(
                 child_2_model[par_2_def].get_s()))
             # check there is a journey to add

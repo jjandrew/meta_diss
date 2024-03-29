@@ -60,7 +60,7 @@ def create_locations(n: int, alpha: int) -> List[Dict[str, int]]:
 
             # Check whether longitude and latitude of depots is not already used
             if matrix[lat][long] == -1:  # If the location is evailable
-                # Set the hub name to the position in the matrix
+                # Set the depot name to the position in the matrix
                 matrix[lat][long] = i
 
                 # Add the location of the depot to dep_locs list
@@ -153,7 +153,7 @@ def create_model(n: int, alpha=2, max_def=-100, max_sur=100) -> Dict[int, Depot]
     # Create the depots as Depot objects
     deps: Dict[int, Depot] = {}
     for i in range(len(dep_locs)):
-        # Assign the corresponding names, locations and supply values to each hub
+        # Assign the corresponding names, locations and supply values to each depot
         new_dep = Depot(name=dep_locs[i]['name'], s=s_vals[i],
                         x=dep_locs[i]['long'], y=dep_locs[i]['lat'])
         # Add the depot to the dictionary

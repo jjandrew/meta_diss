@@ -3,7 +3,7 @@ import unittest
 from model.depot import Depot
 
 
-class TestHubClass(unittest.TestCase):
+class TestDepotClass(unittest.TestCase):
     """
     Tests the Depot class
     """
