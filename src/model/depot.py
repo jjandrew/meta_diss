@@ -31,7 +31,7 @@ class Depot:
 
     def __str__(self) -> str:
         """Depot to string method for debugging"""
-        return f'Depot: {self.name}, (x,y): ({self.x},{self.y}), S: {self.s}'
+        return f'Depot {self.name}, (x,y): ({self.x},{self.y}), S: {self.s}'
 
     def add_connection(self, dep: 'Depot') -> None:
         """
