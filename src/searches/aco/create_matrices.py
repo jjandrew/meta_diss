@@ -3,7 +3,7 @@ Creates distance and pheromone matrices for the problem
 """
 import random
 from typing import List, Dict
-from model.depot import Depot
+from TNRP_model.depot import Depot
 
 
 def create_dist_matrix(model: Dict[int, Depot]) -> List[List[float]]:

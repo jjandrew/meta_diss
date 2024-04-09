@@ -4,8 +4,8 @@ Tests the SA algorithm
 import unittest
 from typing import List, Dict
 from searches.sa.sa import sa, accept
-from model.tnrp_model import create_model
-from utils import is_complete
+from TNRP_model.tnrp_model import create_model
+from searches.utils import is_complete
 import copy
 
 

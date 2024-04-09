@@ -2,7 +2,7 @@
 Tests the evaluation method for the genetic algorithm
 """
 import unittest
-from model.depot import Depot
+from TNRP_model.depot import Depot
 from searches.ga.selection import tournament
 
 

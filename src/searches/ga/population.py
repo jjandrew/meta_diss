@@ -3,7 +3,7 @@ Encodes a solution into a chromosome
 """
 import copy
 from typing import Dict, List, Tuple
-from model.depot import Depot
+from TNRP_model.depot import Depot
 from searches.random_search import random_search
 
 

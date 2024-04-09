@@ -4,9 +4,9 @@ Tests a valid path can be generated in the AS algorithm using matrices
 import unittest
 from searches.aco.path_generation import perform_journey, generate_path
 from searches.aco.create_matrices import create_heur_matrix, create_dist_matrix, create_pher_matrix
-from model.tnrp_model import create_model
-from model.depot import Depot
-from utils import is_complete
+from TNRP_model.tnrp_model import create_model
+from TNRP_model.depot import Depot
+from searches.utils import is_complete
 
 
 class TestASPathGenerationClass(unittest.TestCase):

@@ -5,12 +5,12 @@ import random
 import copy
 from math import inf
 from typing import Dict, List, Tuple
-from model.depot import Depot
+from TNRP_model.depot import Depot
 from searches.ga.population import gen_pop, decode_solution
 from searches.ga.selection import tournament
 from searches.ga.crossover import aware_crossover
 from searches.ga.mutation import swap
-from utils import fitness
+from searches.utils import fitness
 
 
 def ga(model: Dict[int, Depot], mutation_rate: float, crossover_rate: float,

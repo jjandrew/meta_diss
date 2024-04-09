@@ -3,7 +3,7 @@ Creates a random solution to the model passed in
 """
 import random
 from typing import List, Dict, Tuple
-from model.depot import Depot
+from TNRP_model.depot import Depot
 
 
 def perform_journey(sur_dep: Depot, def_dep: Depot,

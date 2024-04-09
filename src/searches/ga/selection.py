@@ -5,8 +5,8 @@ from typing import List, Dict, Tuple
 import random
 from math import inf
 from searches.ga.population import encode_solution, decode_solution
-from utils import fitness
-from model.depot import Depot
+from searches.utils import fitness
+from TNRP_model.depot import Depot
 
 
 def tournament(pop: List[List[Tuple[int, int, int]]], t_size: int, model: Dict[int, Depot]) -> List[Tuple[int, int, int]]:

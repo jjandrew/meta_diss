@@ -2,8 +2,8 @@
 Tests for TNRP model creation
 """
 import unittest
-from model.tnrp_model import create_empty_matrix, create_locations, create_model, generate_s_vals
-from model.depot import Depot
+from TNRP_model.tnrp_model import create_empty_matrix, create_locations, create_model, generate_s_vals
+from TNRP_model.depot import Depot
 from math import sqrt
 
 

@@ -3,9 +3,9 @@ Tests for the repeated functions throughout the project
 """
 
 import unittest
-from model.depot import Depot
-from utils import fitness, is_resolved, apply_path, is_complete
-from model.tnrp_model import create_model
+from TNRP_model.depot import Depot
+from searches.utils import fitness, is_resolved, apply_path, is_complete
+from TNRP_model.tnrp_model import create_model
 from searches.random_search import random_search
 import copy
 

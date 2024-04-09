@@ -2,7 +2,7 @@
 Tests the matrix creation functions of AS
 """
 import unittest
-from model.depot import Depot
+from TNRP_model.depot import Depot
 from searches.aco.create_matrices import create_dist_matrix, create_pher_matrix, create_heur_matrix
 
 

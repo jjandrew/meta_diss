@@ -9,7 +9,7 @@ from searches.aco.create_matrices import create_dist_matrix, create_heur_matrix,
 from searches.ga.ga import ga
 from searches.sa.sa import sa
 from searches.random_search import random_search
-from utils import fitness
+from searches.utils import fitness
 from visualise import read_model, show_best, plot_convergence_comparison, plot_time_comparison, plot_fitness_comparison
 
 if __name__ == "__main__":

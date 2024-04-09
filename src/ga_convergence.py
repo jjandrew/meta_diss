@@ -15,7 +15,7 @@ if __name__ == "__main__":
     iters = 10000
 
     # Set the algorithm hyperparameters
-    m_r = 0.1
+    m_r = 0.5
     pop_size = 50
     t_size = 10
     c_r = 0.6

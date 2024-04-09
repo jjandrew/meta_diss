@@ -3,10 +3,10 @@ Executes the main body of the AS algorithm
 """
 from math import inf
 from typing import List, Dict
-from model.depot import Depot
+from TNRP_model.depot import Depot
 from searches.aco.path_generation import generate_path
 from searches.aco.pheromone import update_pheromone
-from utils import fitness
+from searches.utils import fitness
 
 
 def AS(model: Dict[int, Depot], m: int, e: float, Q: int, d: List[List[float]],

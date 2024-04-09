@@ -3,9 +3,9 @@ Tests the GA
 """
 import unittest
 from typing import List, Dict
-from model.tnrp_model import create_model
+from TNRP_model.tnrp_model import create_model
 from searches.ga.ga import ga
-from utils import is_complete
+from searches.utils import is_complete
 
 
 class TestGAClass(unittest.TestCase):

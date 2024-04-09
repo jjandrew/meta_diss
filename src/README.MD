@@ -27,7 +27,7 @@ The requirements.txt file contains packages needed to create graphs and carry ou
 
 ## Running Experiments
 
-The experiments are run using predefined TNRP instances, listed in `./modelExamples/`. Each of these `n.txt` files are decoded in the `visualise.py` file for the experiments.
+The experiments are run using predefined TNRP instances, listed in `./TNRP_examples/`. Each of these `n.txt` files are decoded in the `visualise.py` file for the experiments.
 
 All of the experiments are run from the same file: `experiments.py`. This file can be run using the command:
 
@@ -51,7 +51,7 @@ Finally the file will output a graphical comparison of times and the best fitnes
 
 ### TNRP Model
 
-A TNRP consists of n depots with a supply value that needs to be resolved. All of the TNRP model functions are in the `./model/` folder.
+A TNRP consists of n depots with a supply value that needs to be resolved. All of the TNRP model functions are in the `./TNRP_model/` folder.
 
 #### depot.py
 

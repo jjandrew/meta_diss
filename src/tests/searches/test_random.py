@@ -4,7 +4,7 @@ Tests for the random search method
 import unittest
 from typing import List, Dict
 from searches.random_search import random_search
-from model.tnrp_model import create_model
+from TNRP_model.tnrp_model import create_model
 
 
 class TestRandomSolutionClass(unittest.TestCase):

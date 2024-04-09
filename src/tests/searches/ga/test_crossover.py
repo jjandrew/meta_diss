@@ -3,9 +3,9 @@ Unit tests for the crossover method of the genetic algorithm
 """
 import unittest
 from searches.ga.crossover import aware_crossover
-from model.depot import Depot
+from TNRP_model.depot import Depot
 from searches.ga.population import encode_solution, decode_solution
-from utils import is_complete
+from searches.utils import is_complete
 
 
 class TestCrossoverClass(unittest.TestCase):

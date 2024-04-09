@@ -1,6 +1,6 @@
 """Tests for the depot class"""
 import unittest
-from model.depot import Depot
+from TNRP_model.depot import Depot
 
 
 class TestDepotClass(unittest.TestCase):

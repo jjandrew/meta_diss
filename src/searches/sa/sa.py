@@ -5,8 +5,8 @@ import random
 import math
 from typing import Dict, List, Tuple
 from searches.random_search import random_search
-from model.depot import Depot
-from utils import fitness
+from TNRP_model.depot import Depot
+from searches.utils import fitness
 from searches.sa.neighbourhood import gen_neighbour, compress_neighbour
 
 

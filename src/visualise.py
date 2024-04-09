@@ -3,7 +3,7 @@ Allows for the visualisation of the experiments and the TNRP
 """
 import matplotlib.pyplot as plt
 from typing import Dict, List
-from model.depot import Depot
+from TNRP_model.depot import Depot
 
 
 def write_model(model: Dict[int, Depot], filename: str):

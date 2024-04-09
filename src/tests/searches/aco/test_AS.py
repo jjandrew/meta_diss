@@ -5,9 +5,9 @@ import unittest
 from typing import List, Dict
 from searches.aco.create_matrices import create_dist_matrix, create_pher_matrix, create_heur_matrix
 from searches.aco.AS import AS
-from model.depot import Depot
-from model.tnrp_model import create_model
-from utils import is_complete
+from TNRP_model.depot import Depot
+from TNRP_model.tnrp_model import create_model
+from searches.utils import is_complete
 
 
 class TestASClass(unittest.TestCase):
