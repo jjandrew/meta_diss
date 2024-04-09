@@ -1,0 +1,10 @@
+Depot 0, (x,y): (5,4), S: 45
+Depot 1, (x,y): (5,18), S: 28
+Depot 2, (x,y): (6,18), S: 24
+Depot 3, (x,y): (15,9), S: -70
+Depot 4, (x,y): (4,18), S: 63
+Depot 5, (x,y): (0,14), S: -73
+Depot 6, (x,y): (4,10), S: -92
+Depot 7, (x,y): (12,6), S: 72
+Depot 8, (x,y): (0,2), S: 53
+Depot 9, (x,y): (3,5), S: -50
